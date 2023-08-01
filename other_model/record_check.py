@@ -37,7 +37,18 @@ class action__recognition():
     count_to_save=1
     zeros_array = np.zeros((keypoints,dim))
 
-            
+
+def saving_image(key, mat):
+    if key == 115:
+        img = sl.ERROR_CODE.FAILURE
+        while img != sl.ERROR_CODE.SUCCESS:
+            filepath = input("Enter filepath name: ")
+            img = mat.write(filepath)
+            print("Saving image : {0}".format(repr(img)))
+            if img == sl.ERROR_CODE.SUCCESS:
+                break
+            else:
+                print("Help: you must enter the filepath + filename + PNG extension.")       
       
             
 def create_array(smm_name,lock):
@@ -49,6 +60,7 @@ def create_array(smm_name,lock):
             existing_smm = shared_memory.SharedMemory(name=smm_name)
             np_array = np.ndarray((1, 52, 17, 2), dtype=np.float64, buffer=existing_smm.buf)
             np_array[:]=bodyarry
+            
             existing_smm.close()
     return bodyarry
     
@@ -58,29 +70,30 @@ def write_date(smm_name,lock,bodyarry):
         existing_smm = shared_memory.SharedMemory(name=smm_name)
         np_array = np.ndarray((1, 52, 17, 2), dtype=np.float64, buffer=existing_smm.buf)
         np_array[:]=bodyarry
+        if action__recognition.count==51:
+            np.save('skeletondata/17_real_ky1.npy',np_array,allow_pickle=True)
         existing_smm.close()
 def coco18_translate_coco17(array):
     #delete the neck
-    new_array = np.copy(array)
-    new_array = np.delete(new_array, 1, axis=0)   
+    new_array = np.empty((17, 2))
       
     new_array[0]=array[0]  # nose
-    new_array[1]=array[14] # left_eye
-    new_array[2]=array[13]  #right_eye
-    new_array[3]=array[16]  #left_ear
-    new_array[4]=array[15]  #right_ear
-    new_array[5]=array[4]   #left_shoulder
-    new_array[6]=array[1]   #right_shoulder
-    new_array[7]=array[5]   #left_elbow
-    new_array[8]=array[2]   #right_elbow
-    new_array[9]=array[6]   #left_wrist
-    new_array[10]=array[3]  #right_wrist
-    new_array[11]=array[10] # left_hip
-    new_array[12]=array[7]  # right_hip
-    new_array[13]=array[11] #left_knee
-    new_array[14]=array[8]  # right_knee
-    new_array[15]=array[12] #left_ankle
-    new_array[16]=array[9]  #right_ankle
+    new_array[1]=array[15] # left_eye
+    new_array[2]=array[14]  #right_eye
+    new_array[3]=array[17]  #left_ear
+    new_array[4]=array[16]  #right_ear
+    new_array[5]=array[5]   #left_shoulder
+    new_array[6]=array[2]   #right_shoulder
+    new_array[7]=array[6]   #left_elbow
+    new_array[8]=array[3]   #right_elbow
+    new_array[9]=array[7]   #left_wrist
+    new_array[10]=array[4]  #right_wrist
+    new_array[11]=array[11] # left_hip
+    new_array[12]=array[8]  # right_hip
+    new_array[13]=array[12] #left_knee
+    new_array[14]=array[9]  # right_knee
+    new_array[15]=array[13] #left_ankle
+    new_array[16]=array[10]  #right_ankle
     return new_array
 
 def add_item(smm_name,lock,twodim,bodyarry):
@@ -94,10 +107,12 @@ def add_item(smm_name,lock,twodim,bodyarry):
         bodyarry =np.concatenate((bodyarry, [tmp]), axis=0)
         #store the bodyarry into smm
         write_date(smm_name,lock,bodyarry)
+        
     else:
         bodyarry[action__recognition.count]= np.copy(tmp)
         action__recognition.count = 1 +action__recognition.count
         print( action__recognition.count)
+        
         write_date(smm_name,lock,bodyarry)
     return bodyarry
 
@@ -113,7 +128,7 @@ def delete_item(smm_name, count,bodyarry,lock):
 
     with lock:
         existing_smm = shared_memory.SharedMemory(name=smm_name)
-        np_array = np.ndarray((1, 50, 17, 2), dtype=np.float64, buffer=existing_smm.buf)
+        np_array = np.ndarray((1, 52, 17, 2), dtype=np.float64, buffer=existing_smm.buf)
         np_array[:]=bodyarry
         existing_smm.close()
 
@@ -168,7 +183,7 @@ def main(smm_name,lock):
     body_runtime_param = sl.BodyTrackingRuntimeParameters()
     # For outdoor scene or long range, the confidence should be lowered to avoid missing detections (~20-30)
     # For indoor scene or closer range, a higher confidence limits the risk of false positives and increase the precision (~50+)
-    body_runtime_param.detection_confidence_threshold = 52
+    body_runtime_param.detection_confidence_threshold = 20
     
     
     runtime = sl.RuntimeParameters()
@@ -213,9 +228,9 @@ def main(smm_name,lock):
             #     delete_item(smm_name,action__recognition.count,bodyarry)
                     
             cam.retrieve_image(mat)
-
+            cv2.imshow("ZED", mat.get_data())
             key = cv2.waitKey(1)
-
+            saving_image(key, mat)
         else:
             key = cv2.waitKey(1)
     cv2.destroyAllWindows()

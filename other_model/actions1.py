@@ -95,84 +95,15 @@ def parse_args():
     return args
 
 
-def visualize(args, frames, data_samples, action_label):
-    pose_config = mmengine.Config.fromfile(args.pose_config)
-    visualizer = VISUALIZERS.build(pose_config.visualizer)
-    visualizer.set_dataset_meta(data_samples[0].dataset_meta)
-
-    vis_frames = []
-    print('Drawing skeleton for each frame')
-    for d, f in track_iter_progress(list(zip(data_samples, frames))):
-        f = mmcv.imconvert(f, 'bgr', 'rgb')
-        visualizer.add_datasample(
-            'result',
-            f,
-            data_sample=d,
-            draw_gt=False,
-            draw_heatmap=False,
-            draw_bbox=True,
-            show=False,
-            wait_time=0,
-            out_file=None,
-            kpt_thr=0.3)
-        vis_frame = visualizer.get_image()
-        cv2.putText(vis_frame, action_label, (10, 30), FONTFACE, FONTSCALE,
-                    FONTCOLOR, THICKNESS, LINETYPE)
-        vis_frames.append(vis_frame)
-
-    vid = mpy.ImageSequenceClip(vis_frames, fps=24)
-    vid.write_videofile(args.out_filename, remove_temp=True)
 
 import time 
-def main():
+def main(smm_name,actions,lock,lock1):
+    from multiprocessing import shared_memory
     args = parse_args()
-
-    # tmp_dir = tempfile.TemporaryDirectory()
-    # frame_paths, frames = frame_extract(args.video, args.short_side,
-    #                                     tmp_dir.name)
-    # frame_paths = frame_paths[:52]  # 保留每隔一个元素的路径
-    # frames = frames[:52]  # 保留每隔一个元素的帧图像
-    # num_frame = len(frame_paths)
-    # print("here is something",num_frame)
-
-    # h, w, _ = frames[0].shape
-    # print(h,w)
- 
-    # Get Human detection results.
-    #print("start time .....")
-    #s = time.time()
-    # det_results, _ = detection_inference(args.det_config, args.det_checkpoint,
-    #                                      frame_paths, args.det_score_thr,
-    #                                      args.det_cat_id, args.device)
-    # # 将det_results转换为NumPy数组
-    # # det_results_np = np.array(det_results)
-
-    # # # 将det_results_np转换为2D数组
-    # # det_results_2d = det_results_np.reshape(det_results_np.shape[0], -1)
-
-    # # # 保存目标检测结果到文本文件
-    # # np.savetxt('det_results.txt', det_results_2d, fmt='%s')
-    # torch.cuda.empty_cache()
-    
-
-    
-
-    # # Get Pose estimation results.
-    # pose_results, pose_data_samples = pose_inference(args.pose_config,
-    #                                                  args.pose_checkpoint,
-    #                                                  frame_paths, det_results,
-    #                                                  args.device)
-
-
-    # torch.cuda.empty_cache()
-    #e = time.time()
-    #print("running time is ",e-s)
-    # h=720 
-    # w = 1280
     h=400 
     w = 800
     
-    num_frame =10
+    num_frame =52
     fake_anno = dict(
         frame_dir='',
         label=-1,
@@ -181,34 +112,17 @@ def main():
         start_index=0,
         modality='Pose',
         total_frames=num_frame)
-    # num_person = max([len(x['keypoints']) for x in pose_results])
+
 
     num_keypoint = 17
-    # keypoint = np.zeros((num_frame, num_person, num_keypoint, 2),
-    #                     dtype=np.float16)
-    # keypoint_score = np.zeros((num_frame, num_person, num_keypoint),
-    #                           dtype=np.float16)
-    # for i, poses in enumerate(pose_results):
-    #     keypoint[i] = poses['keypoints']
-    #     keypoint_score[i] = poses['keypoint_scores']
-
-    # print(keypoint.shape)
-    
-    # fake_anno['keypoint'] = keypoint.transpose((1, 0, 2, 3))
-    # fake_anno['keypoint_score'] = keypoint_score.transpose((1, 0, 2))
-    # print(fake_anno['keypoint'])
-    # # print(len(fake_anno['keypoint']))
-    # np.save('keypoint.npy', fake_anno.get('keypoint', np.array([])))
-    # np.save('keypoint_score.npy', fake_anno.get('keypoint_score', np.array([])))
 
     print("star time")
     s = time.time()
-    tmp = np.load('skeletonpose1.npy', allow_pickle=True)
-    tmp = tmp[:,:10,:,:]
+    tmp = np.load('keypoint1.npy', allow_pickle=True)
+ 
     fake_anno['keypoint'] =np.copy(tmp)
     print(fake_anno['keypoint'].shape)
     tmp1 = np.load('keypoint_score.npy', allow_pickle=True)
-    tmp1 = tmp1[:,:10,:]
     fake_anno['keypoint_score'] = np.copy(tmp1)
     print(fake_anno['keypoint_score'].shape)
     e = time.time()
@@ -221,6 +135,7 @@ def main():
     print("the processing2 time is ",e-s)
     
     model = init_recognizer(config, args.checkpoint, args.device)
+
     print("star")
     for i in range(100):
         s = time.time()
@@ -232,21 +147,49 @@ def main():
         start_index=0,
         modality='Pose',
         total_frames=num_frame)
-        fake_anno['keypoint'] =np.copy(tmp)
+        with lock:
+            existing_smm = shared_memory.SharedMemory(name=smm_name)
+            np_array = np.ndarray((1, num_frame, 17, 2), dtype=np.float64, buffer=existing_smm.buf)
+            tmp[:]=np_array
+            existing_smm.close()
+        fake_anno['keypoint'] =tmp
         fake_anno['keypoint_score'] = np.copy(tmp1)
         result = inference_recognizer(model, fake_anno)
         max_pred_index = result.pred_scores.item.argmax().item()
         e = time.time()
-    
+        label_map = [x.strip() for x in open(args.label_map).readlines()]
+        action_label = label_map[max_pred_index]
+        print("hhhhhhhhhhhhhhhhhhhhhhhhh",action_label)
         print("the processing3 time is ",e-s)
-    label_map = [x.strip() for x in open(args.label_map).readlines()]
-    action_label = label_map[max_pred_index]
-    print("hhhhhhhhhhhhhhhhhhhhhhhhh",action_label)
 
-    # visualize(args, frames, pose_data_samples, action_label)
-
-    # ...
 
 
 if __name__ == '__main__':
-    main()
+    import skelCoord
+
+    frame=52
+    num_keypoint =17
+    dim_keypoint = 2
+    from multiprocessing import shared_memory,   Process,Lock,Manager
+
+    with Manager() as manager:
+    #action lable
+        actions = manager.list()
+        np_array = np.zeros(shape=(1, frame, num_keypoint, dim_keypoint), dtype=np.float64) 
+        smm = shared_memory.SharedMemory(create=True, size=np_array.nbytes)
+        np_array_smm = np.ndarray((1, frame, num_keypoint, dim_keypoint), dtype=np.float64, buffer=smm.buf)
+        np.copyto(np_array_smm, np_array)
+        
+        lock = Lock()
+        lock1 = Lock()
+        # Assuming record_check.my_function and main are your target functions
+        p1 = Process(target=skelCoord.SkelCoord, args=(smm.name,actions,lock,lock1))
+        p2 = Process(target=main, args=(smm.name,actions,lock,lock1))
+        p1.start()
+        p2.start()
+
+        p1.join()
+        p2.join()
+
+        smm.close()
+        smm.unlink()

@@ -95,10 +95,9 @@ def parse_args():
     return args
 
 import time 
-def main(smm_name,actions,zed_signal_attrs,lock,lock1,lock2):
-    from multiprocessing import shared_memory
-
-    args =parse_args()
+def main():
+    import actions1
+    args =actions1.parse_args()
     h=720 
     w = 1280
     num_frame =20
@@ -114,103 +113,39 @@ def main(smm_name,actions,zed_signal_attrs,lock,lock1,lock2):
 
     print("star time")
     s = time.time()
-    tmp = np.load('skeletondata/keypoint1.npy', allow_pickle=True)
+    tmp = np.load('skeletondata/17_real_ky1.npy', allow_pickle=True)
+    # tmp= np.expand_dims(tmp, axis=0)
     tmp = tmp[:,:20,:,:]
     fake_anno['keypoint'] =np.copy(tmp)
     print(fake_anno['keypoint'].shape)
-    tmp1 = np.load('skeletondata/keypoint_score1.npy', allow_pickle=True)
+    tmp1 = np.load('keypoint_score1.npy', allow_pickle=True)
+    # array = np.pad(tmp1, ((0,0), (0,0), (0,1)), 'constant', constant_values=80)
+    # print(array.shape)
     tmp1 = tmp1[:,:20,:]
     fake_anno['keypoint_score'] = np.copy(tmp1)
     print(fake_anno['keypoint_score'].shape)
     e = time.time()
-    # print("the processing1 time is ",e-s)
+    print("the processing1 time is ",e-s)
 
     config = mmengine.Config.fromfile(args.config)
     config.merge_from_dict(args.cfg_options)
     model = init_recognizer(config, args.checkpoint, args.device)
     
     print("star")
-    while True:
-        s = time.time() 
-        with lock:
-            existing_smm = shared_memory.SharedMemory(name=smm_name)
-            np_array = np.ndarray((1, num_frame,  keypoint, 2), dtype=np.float64, buffer=existing_smm.buf)
-            tmp[:]=np_array
-            existing_smm.close()
 
-        fake_anno['keypoint'] =tmp
-        fake_anno['keypoint_score'] = np.copy(tmp1)
-        result = inference_recognizer(model, fake_anno)
-        max_pred_index = result.pred_scores.item.argmax().item()
-        e = time.time()
-        label_map = [x.strip() for x in open(args.label_map).readlines()]
-        action_label = label_map[max_pred_index]
-        with lock1:
-            if len(actions) >= 1:  # 如果共享列表的长度已经达到4
-                del actions[0] 
-            actions.append(action_label)
-        
-        
-        # print("the processing3 time is ",e-s)
-        # with lock2:
-        #     if zed_signal_attrs['confidence'] is not None:
-        #         print(zed_signal_attrs['confidence'])
-        #     else:
-        #         print("few")
-    with lock:
-        existing_smm = shared_memory.SharedMemory(name=smm_name)
-        np_array = np.ndarray((1, num_frame, keypoint, 2), dtype=np.float64, buffer=existing_smm.buf)
-        print(np_array)  
-        existing_smm.close()
-        
-        
-        
+    s = time.time() 
+    fake_anno['keypoint'] =tmp
+    fake_anno['keypoint_score'] = np.copy(tmp1)
+    result = inference_recognizer(model, fake_anno)
+    max_pred_index = result.pred_scores.item.argmax().item()
+    e = time.time()
+    label_map = [x.strip() for x in open(args.label_map).readlines()]
+    action_label = label_map[max_pred_index]
 
+    print("hhh",action_label)
+    
+    print("the processing3 time is ",e-s)
 
 
 if __name__ == '__main__':
-    import skelCoord
-    from multiprocessing import shared_memory, Process, Lock, Manager
-    frame=20
-    num_keypoint =17
-    dim_keypoint = 2
-    
-    with Manager() as manager:
-        #smm for action lable
-        actions = manager.list()
-        #smm for skeleton data 
-        np_array = np.zeros(shape=(1, frame, num_keypoint, dim_keypoint), dtype=np.float64) 
-        smm = shared_memory.SharedMemory(create=True, size=np_array.nbytes)
-        np_array_smm = np.ndarray((1, frame, num_keypoint, dim_keypoint), dtype=np.float64, buffer=smm.buf)
-        np.copyto(np_array_smm, np_array)
-        
-        # Initialize zed_signal attributes as a manager dict
-        zed_signal_attrs = manager.dict({
-            'confidence': None,
-            'id1': None,
-            'position': [],
-            'velocity': None,
-            'action_state': None,
-            'keypoint': None,
-            'keypoint_2d': None,
-            'tracking_state': [],
-            'l_Elbow': [0,0,0],
-            'r_Wrist': [0,0,0]
-        })
-        
-        lock = Lock()  #for the skeleton date
-        lock1 = Lock() #for the action label
-        lock2=  Lock() #for the zed_signal
-
-        # pass zed_signal_attrs as an argument
-        p1 = Process(target=skelCoord.SkelCoord, args=(smm.name, actions, zed_signal_attrs, lock, lock1, lock2))
-        p2 = Process(target=main, args=(smm.name, actions, zed_signal_attrs, lock, lock1, lock2))
-        
-        p1.start()
-        p2.start()
-
-        p1.join()
-        p2.join()
-
-        smm.close()
-        smm.unlink()
+    main()

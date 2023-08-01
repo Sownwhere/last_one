@@ -128,8 +128,8 @@ def main():
         start_index=0,
         modality='Pose',
         total_frames=num_frame)
-    fake_anno['keypoint'] = np.load('keypoint.npy', allow_pickle=True)
-    fake_anno['keypoint_score']  = np.load('keypoint_score.npy', allow_pickle=True)
+    fake_anno['keypoint'] = np.load('skeletondata/keypoint.npy', allow_pickle=True)
+    fake_anno['keypoint_score']  = np.load('skeletondata/keypoint_score.npy', allow_pickle=True)
 
     print("start")
 
@@ -157,15 +157,14 @@ def main():
 
 
 if __name__ == '__main__':
-    import recore_check
 
     from multiprocessing import  Process
     process_list = []
     
     p = Process(target=main) #实例化进程对象
-    c = Process(target=recore_check.main) #实例化进程对象
+
     p.start()
-    c.start()
+
     process_list.append(p)
 
     p.join()
