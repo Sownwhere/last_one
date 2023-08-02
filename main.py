@@ -2,7 +2,7 @@ import skelCoord
 import stgcnpp
 import numpy as np
 from multiprocessing import shared_memory, Process, Lock, Manager
-from camera_test import *
+from revolution import *
 import asyncio
 
 def main_function_process(actions,zed_signal_attrs, lock1,lock2):
