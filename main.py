@@ -2,11 +2,11 @@ import skelCoord
 import stgcnpp
 import numpy as np
 from multiprocessing import shared_memory, Process, Lock, Manager
-from revolution import *
+from state_logic import *
 import asyncio
 
 def main_function_process(actions,zed_signal_attrs, lock1,lock2):
-    
+
     asyncio.run(main_functions(actions,zed_signal_attrs, lock1,lock2))
 
 # 在进程中启动
