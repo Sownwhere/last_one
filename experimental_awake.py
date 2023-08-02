@@ -8,12 +8,12 @@ from decisions import *
 
 async def awaken(ws):             # rouse from sleep. Uninterruptible until complete
 
-    Glob.current_behaviour = 'awakening...'
+    Glob.current_behaviour = 'awakening...' 
 
-    wake_type = random.choice([1,2,3,4,5])
-    print(wake_type)
+    wake_type = random.choice([1,2,3,4,5])  
+    print(wake_type)                        
 
-    async def greet():
+    async def greet():                         
         await asyncio.sleep()
         await preq.alight_ends(ws, [])
 
@@ -59,11 +59,12 @@ async def waiting(ws):
         Glob.t = time.time() - Glob.start_time
 
     if Glob.t < Glob.patience:
-        f = 0 # do the waiting behaviour here
+
+        f = 0       # do the waiting behaviour here
 
     elif Glob.t >= Glob.patience:       # greet 
 
-        
+        f = 0
         
 
 
