@@ -33,6 +33,7 @@ async def squid_game(ws):
             usb_key_path = r"C:\Users\Science Gallery\Desktop\Data" #Replace with path
             file_name = f"data_{current_datetime}.xlsx"
             file_path = usb_key_path + "\\" + file_name
+           
             try:
                 df = pd.DataFrame(data)
                 df.to_excel(file_path, index = False) #Save 2 Excel no header
