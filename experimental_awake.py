@@ -22,7 +22,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
 
     async def wink(ws):                 # 2 ~# bruh     # colour change one atm
         print('wink')
-        downtime = 1.5
+        downtime = 1.5 
         down = [[0,0,0], [0,0,0]]
         await preq.flow(ws, downtime, down)
         uptime = 1.5
