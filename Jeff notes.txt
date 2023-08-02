@@ -1,0 +1,56 @@
+Jeff notes 
+
+SEAMLESS TRANSFERS:
+l0,l1 : [240, 30, 100] 
+    ==
+l0,l1 : [1005, 30, 100]
+same difference from 255*n, top bottom need to be same
+do bottom bloop effect, then samify top, then seamless to within bounds value
+------------------------------------------------------
+
+Bloom from top:
+alight top (lim-> 600) 
+------------------------------------------------------
+
+X = scaling             主      宾
+[x, 0, 0]               0       R 
+[0, x, 0]               0       G
+[0, x, 0]               0       b
+
+conclusion - one scaling, two zilch
+UNLIT main, SCALARS propogate
+-----------------------------------------------
+
+[x, x, 0]               黄      0
+[x, 0, x]               紫      0
+[0, x, x]               青      0
+
+conclusion - two scaling, one zilch
+SCALARS mix as main color, UNLIT propogates
+-----------------------------------------------
+
+[x, 1, 1]               白      蓝（白）
+[1, x, 1]               白      紫（蓝）
+[1, 1, x]               白      青
+
+conclusions - one scaling, two full
+WHITE main, mix of STATIC propogate
+-----------------------------------------------
+
+[1, x, x]               白      红（白）
+[x, 1, x]               白      绿
+[x, x, 1]               白      蓝（白）
+
+conclusions - two scaling, one full
+WHITE main, STATIC propogate
+-----------------------------------------------
+
+[1, 0, x]               紫      粉
+[1, x, 0]               青      红/黄
+
+conclusions - one scaling, one full, one zilch
+SCALING and FULL mix as main. STATIC propogates
+-----------------------------------------------
+
+
+

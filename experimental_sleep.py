@@ -1,4 +1,4 @@
-# Works as desired
+# works. replace
 
 from imports import *
 from Glob import Glob
@@ -18,11 +18,11 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
         await preq.flow(ws, 1, [[0,0,0],[0,0,0]])
         await preq.simul_inflate(ws, [0.3, 0.3, 0.3])
         Glob.current_state = 'SLEEPING'
-        # print('drift off')
+        print('drift off')
 
     async def sleeby():                         # inhale exhale cycle
 
-        volume = [1.0, 0.4]                     # chamber volume ceiling/floor
+        volume = [1.0, 0.3]                     # chamber volume ceiling/floor
         brightness = [1, 0.1]                   # light values ceiling/floor
 
         max_pressures = [0.9,0.8,1]
@@ -33,6 +33,8 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
         hold_time_range = [1,3]                 # t range for breath hold
         pauses = [1.0, 1.1, 1.2, 2.0, 3.0]      # t range for pause between 
         weights = [3, 3, 2, 1, 1]   
+
+        #print('begin sleep')                                           
         
         if Glob.current_behaviour != 'sleebing':                     # if from foreign behaviour             
             
@@ -50,7 +52,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             Glob.G_period = random.uniform(0.1, 0.7)
             Glob.B_period = random.uniform(0.1, 0.7)
 
-            # print('initialise sleep')
+            print('initialise sleep')
 
         elif Glob.current_behaviour == 'sleebing':                   # within sleeb loop
 
@@ -68,13 +70,13 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             bot_colours = [0,0,0]
 
             if Glob.dreamspire == 0:
-
+                #print('no fancy')
                 top_colours = base_colour_0
                 bot_colours = base_colour_1
                 pass
 
             elif Glob.dreamspire == 1: 
-
+                #print('yes fancy')
                 for i in range(3):
                     top_colours[i] = 150*math.sin(t*math.pi*dream_breath_order[i])**2 + 105
                     bot_colours[i] = 150*math.sin(t*math.pi*dream_breath_order[i])**2 + 105
@@ -105,13 +107,13 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             bot_colours = [0,0,0]
 
             if Glob.dreamspire == 0:
-
+                #print('no fancy')
                 top_colours = base_colour_0
                 bot_colours = base_colour_1
                 pass
 
             elif Glob.dreamspire == 1: 
-
+                #print('yes fancy')
                 for i in range(3):
                     top_colours[i] = 150*math.sin((t - hold)*math.pi*dream_breath_order[i])**2 + 105
                     bot_colours[i] = 150*math.sin((t - hold)*math.pi*dream_breath_order[i])**2 + 105
@@ -137,30 +139,30 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 
             if Glob.t < Glob.breath_time/2:                               # inspire
                 
-                # print('inspire', Glob.dreamspire)
+                print('inspire', Glob.dreamspire)
                 Glob.p, Glob.l0, Glob.l1 = inhale(Glob.t)
 
             elif Glob.t < Glob.breath_time/2 + Glob.hold_time:                 # hold
                 
-                # print('hold')
+                print('hold')
                 pass
 
             elif Glob.t < Glob.breath_time + Glob.hold_time:                   # expire
                 
-                # print('expire', Glob.dreamspire)
+                print('expire', Glob.dreamspire)
                 Glob.p, Glob.l0, Glob.l1 = exhale(Glob.t - (Glob.breath_time/2 + Glob.hold_time))
 
 
             elif Glob.t < Glob.breath_time + Glob.hold_time + Glob.pause_time:      # pause
                 
-                # print('pause')
+                print('pause')
                 pass
 
         elif Glob.t >= Glob.duration:
 
             Glob.current_behaviour = None
             Glob.dream_on = 1
-            # print('end', Glob.dream_on)
+            print('end', Glob.dream_on)
             return
             
     async def dream(): 
@@ -172,7 +174,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             if Glob.dream_type == 0:    # exit dream
                 Glob.current_behaviour = None
                 Glob.dream_on = 0               
-                # print('exit dream')
+                print('exit dream')
                 return   
 
             elif Glob.dream_type >= 0:
@@ -180,6 +182,8 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
                 Glob.current_behaviour = 'dreaming'
                 Glob.start_time = time.time()
                 Glob.t = 0
+
+                print('initialise dream')
 
                 if Glob.dream_type == 1:
                     Glob.duration = random.uniform(8,12)
@@ -198,7 +202,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
                         Glob.dC_1[i] = random.uniform(0,255)
                         pass
 
-                # print('dream initialised')
+                print('dream initialised')
                 
         elif Glob.current_behaviour == 'dreaming':
 
@@ -209,47 +213,49 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             
             if Glob.dream_type == 1:               
 
-                # print('turnover') 
+                print('turnover') 
 
                 if Glob.t <= Glob.duration/2:
                     await preq.bloop(Glob.duration/2, [255,255,0], [500,255,0], 0.05)
                     await preq.shift(Glob.duration/2, [1,0,1], 0.05)
                     await asyncio.sleep(0.05)
+                    print('turnover halfway')
 
                 elif Glob.t < Glob.duration:
                     await preq.bloop(Glob.duration/2, [0,0,0], [0,0,0], 0.05)
                     await preq.shift(Glob.duration/2, [0.8,1,1], 0.05)
                     await asyncio.sleep(0.05)
+                    print('end turnover')
 
 
             elif Glob.dream_type == 2:
 
-                # print('dream_sequence')
+                print('dream_sequence')
                 await preq.simul_inflate(ws,[0.8,0.8,0.8])
 
-                if Glob.t <= Glob.duration*0.25:
+                if Glob.t <= Glob.duration/4:
                     await preq.bloop(Glob.duration/4, Glob.dA_0, Glob.dA_1, 0.05)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)
                     await asyncio.sleep(0.05)
-                    # print('dream_seq1')
+                    print('dream_seq1')
 
-                elif Glob.t <= Glob.duration*0.5:
+                elif Glob.t <= Glob.duration*1/2:
                     await preq.bloop(Glob.duration/4, Glob.dB_0, Glob.dB_1, 0.05)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)
                     await asyncio.sleep(0.05)
-                    # print('dream_seq2')
+                    print('dream_seq2')
 
-                elif Glob.t <= Glob.duration*0.75:
+                elif Glob.t <= Glob.duration*3/4:
                     await preq.bloop(Glob.duration/4, Glob.dC_0, Glob.dC_1, 0.05)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)                    
                     await asyncio.sleep(0.05)
-                    # print('dream_seq3')
+                    print('dream_seq3')
 
                 elif Glob.t < Glob.duration:
                     await preq.bloop(Glob.duration/4 - 0.02, [0,0,0], [0,0,0], 0.05)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)
                     await asyncio.sleep(0.05)
-                    # print('end dream_seq')
+                    print('end dream_seq')
 
         if Glob.dream_type > 0:     
 
@@ -261,14 +267,14 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 
                 Glob.current_behaviour = None
                 Glob.dream_on = 0
-                # print('exit dream duration spent')
+                print('exit dream duration spent')
                 return
         
         else:
             pass
 
 
-    # print('choose!')
+    print('choose!')
     if Glob.dream_on == 0:
 
         while Glob.detected == 0 and Glob.dream_on == 0:
@@ -280,6 +286,8 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             await preq.asyncio.sleep(0.05)
 
     elif Glob.dream_on == 1:
+
+        print('dream enter')
 
         while Glob.detected == 0 and Glob.dream_on == 1:
 

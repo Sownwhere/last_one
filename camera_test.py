@@ -4,7 +4,7 @@ import Prerequisites as preq
 from decisions import *
 from sleep_state import *
 from awake_state import *
-from recive import *
+from receive import *
 
 async def recvpump(ws):
     """Empty the recv buffer, doing nothing with the messages."""
@@ -42,7 +42,7 @@ async def main_functions(actions,zed_signal_attrs, lock1,lock2):
     async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
         while True:
             tasks = [ 
-            asyncio.ensure_future(recive_data(actions,zed_signal_attrs, lock1,lock2)),                                      # running concurrently:    
+            asyncio.ensure_future(receive_data(actions,zed_signal_attrs, lock1,lock2)),                                      # running concurrently:    
             asyncio.ensure_future(decision()),               # decides which state per 10 readings
             asyncio.ensure_future(squid_game(ws)),           # decides which behaviours
             asyncio.ensure_future(recvpump(ws))              # clears buffer

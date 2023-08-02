@@ -23,7 +23,7 @@ class Glob:
 
     frame = [p, l0, l1]             # snapshot of vine at any moment 
 
-    # Transitions --------------------------------------------------------------------
+    # Transitions
 
     # Bloop
 
@@ -50,7 +50,7 @@ class Glob:
     sextant = 0
     finalstate = 0                  # confident state from decision()
          
-    # Global ZED Variables
+    # New Global ZED Variables
     confidence = None
     ID = None
     Position = []
@@ -58,7 +58,7 @@ class Glob:
     AS = None
     threedim = None
     twodim = None
-    detected = 0    
+    detected = 0    #######################################################################################################
     trackingstate =[]
     
     # Signals from gestures
@@ -72,28 +72,28 @@ class Glob:
     r_Wrist = [0,0,0]
     signhug = False
     signtickle = False
-    
+
     distance = 1000
     
 
     # STATE/BEHAVIOUR SPECIFIC =======================================================================
 
-    # Sleep --------------------------------------------------------------------------------------
+    # SLEEP ---------------------------------------------------------------------------
     # sleepin 
 
     breath_time = None 
     hold_time = None                         
     pause_time = None
 
-    dreamspire = 0             
-    R_period = 0
-    G_period = 0
-    B_period = 0      
-    dream_breath_order = [0,0,0]
+    dream_breath = 0                    
+    dream_breath_order = [1,2,3]
+
+    dream_in = 0            # look to remove
+    dream_out = 0
 
     # dreaming 
 
-    dream_on = 1             # AAAAAAAAAAAA sing with me! sing for the years!           ##############################################
+    dream_on = 1             # AAAAAAAAAAAA sing with me! sing for the years!       
     dream_type =  0
 
     dA_0 = [0,0,0]
@@ -103,7 +103,7 @@ class Glob:
     dC_0 = [0,0,0]
     dC_1 = [0,0,0]
 
-    # Wake -----------------------------------------------------------------------------------------------
+    # WAKE ---------------------------------------------------------------------------
 
     # awaken 
     awake_start_colour = [[0,0,0],[0,0,0]]
@@ -120,8 +120,4 @@ class Glob:
     # hug type
     hug_type = 0
 
-
-    # Action ID -----------------------------------------------------------------------------------
-
-    #action label
-    actions = None
+ 

@@ -375,7 +375,7 @@ async def RLRGB(ws):
 
 
 async def hug(ws):             ######################################################
-    print("huggin")
+    print("huggin") 
 
     if Glob.current_behaviour != 'hugging':              # start hug
 
@@ -462,7 +462,7 @@ async def wait(ws):     #######################################################
 
     if Glob.current_behaviour != 'waiting':
 
-        Glob.current_behaviour = 'waitng'
+        Glob.current_behaviour = 'waiitng'
         Glob.start_time = time.time()
         Glob.t = 0
 
@@ -479,10 +479,3 @@ async def wait(ws):     #######################################################
 
     async def seek(ws):
         f = 0
-        
-async def jumping(ws):
-    print("dfffehfeuiiiefi")
-    await preq.alight_ends(ws,[255,0,0],[255,0,0])
-    await preq.simul_inflate(ws,[1,1,1])
-    await asyncio.sleep(0.1)
-        
