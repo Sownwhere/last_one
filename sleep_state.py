@@ -290,10 +290,13 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             await preq.asyncio.sleep(0.05)
 
 
+
+
+
+############################################################################################################
 ##############################################   TEST  #####################################################
 
 # async def recvpump(ws):
-#     """Empty the recv buffer, doing nothing with the messages."""
 #     while True:
 #         await ws.recv()
 

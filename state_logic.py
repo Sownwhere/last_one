@@ -1,4 +1,3 @@
-# revolution cuz its state changes. get it
 
 from imports import *
 from Glob import Glob
