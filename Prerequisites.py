@@ -55,7 +55,7 @@ async def alight(ws, r,g,b):                        # set LEDs on
     Glob.l0 = lights
     Glob.l1 = lights
 
-async def alight_ends(ws, l0, l1):              # 0 top, 1 bottom, [R,G,B]
+async def alight_ends(ws, l0, l1):                  # 0 top, 1 bottom, [R,G,B]
     # send lights to end of vine - addr 0 top, addrs 1 bottom
     await _send_cmd(ws, 0, "rgb", [int(l0[1]),int(l0[0]),int(l0[2]),0])
     await _send_cmd(ws, 0, "rgb", [int(l1[1]),int(l1[0]),int(l1[2]),1])

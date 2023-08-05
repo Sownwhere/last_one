@@ -104,11 +104,9 @@ class Glob:
     dC_1 = [0,0,0]
 
     # Wake -----------------------------------------------------------------------------------------------
+    # awaken
 
-    # awaken 
-    awake_start_colour = [[0,0,0],[0,0,0]]
-
-    # waiting
+    # # waiting
     patience = 0
     action_duration = 0
 
