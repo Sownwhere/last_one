@@ -2,7 +2,7 @@ Jeff notes
 
 SEAMLESS TRANSFERS:
 l0,l1 : [240, 30, 100] 
-    ==
+    ==    
 l0,l1 : [1005, 30, 100]
 same difference from 255*n, top bottom need to be same
 do bottom bloop effect, then samify top, then seamless to within bounds value

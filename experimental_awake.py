@@ -13,24 +13,25 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
     Glob.current_behaviour = 'awakening...' 
 
     wake_type = random.choice([1,2,3,4,5])  
-    wake_col = random.choice([1,2,3])
-    wake_colour = [[0,0,0],[0,0,0]]
+    wake_col = random.choice([1,2,3])       
+    wake_colour = [[0,0,0],[0,0,0]]         
 
-    if wake_col == 1:       # blu
-        wake_colour = [[255,255,255],[150,150,255]]
+    if wake_col == 1:       # blu           
+        wake_colour = [[255,255,255],[150,150,255]]     
 
-    elif wake_col == 2:     # green
-        wake_colour = [[255,255,255],[100,255,200]]
+    elif wake_col == 2:     # green         
+        wake_colour = [[255,255,255],[100,255,200]]     
 
-    elif wake_col == 3:     # yellow
-        wake_colour = [[255,255,255],[200,255,100]]
+    elif wake_col == 3:     # yellow        
+        wake_colour = [[255,255,255],[200,255,100]]     
 
-    # print(wake_type)  
+    # print(wake_type)                      
     # print(wake_colour)                      
 
-    async def rouse():
-        await preq.simul_inflate(ws, [1,1,1])
-        await 
+    async def rouse():  
+        await preq.simul_inflate(ws, [1,1,1])   
+        await preq.alight_ends(ws, [255,255,255],[0,0,0])
+        await preq.flow(ws, 0.5, wake_colour)   
 
     async def greet():                         
         await asyncio.sleep()
@@ -258,6 +259,7 @@ async def bow(ws, sextant):
             await simul_inflate(ws, [1, 0, 1])
 
 async def seek(ws, sextant):
+
     f = 0
 
 ### ### STATE FUNCTION - OVERARCHING STRUCTURE ### ### =================================================
