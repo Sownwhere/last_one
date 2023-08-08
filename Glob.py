@@ -107,10 +107,12 @@ class Glob:
     # awaken
 
     # # waiting
-    patience = 0
-    action_duration = 0
 
-    neutral_colour = [[0,0,0],[0,0,0]]
+    patience = 0
+    initiative = 0
+
+    wait_colour = [[0,0,0],[0,0,0]]
+    wait_pos = [0,0,0]
 
     # neutral
     neutral_1 = [0,0,0]

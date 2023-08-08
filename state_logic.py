@@ -47,7 +47,7 @@ async def squid_game(ws):
 
         elif prostate >= 2:
 
-            data.append([datetime.now().strftime("%Y-%m-%d %H_%M_%S"), Glob.current_behaviour, Glob.Postion, Glob.Velocity, Glob.distance, Glob.threedim, Glob.twodim, Glob.p, Glob.l0, Glob.l1])
+            data.append([datetime.now().strftime("%Y-%m-%d %H_%M_%S"), Glob.current_behaviour, Glob.Position, Glob.Velocity, Glob.distance, Glob.threedim, Glob.twodim, Glob.p, Glob.l0, Glob.l1])
             
             await AWAKE(ws)
 

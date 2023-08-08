@@ -71,6 +71,20 @@ async def waiting(ws):
         Glob.t = 0
 
         Glob.patience = random.uniform(3,5)     # how long until seeking a reaction
+        Glob.initiative = random.choices([0,1], [2,1])
+
+        print('patience', Glob.patience, 'initiative', Glob.initiative)
+
+        R0 = random.uniform(0,255)
+        G0 = random.uniform(0,255)
+        B0 = random.uniform(0,255)
+
+        R1 = random.uniform(0,255)
+        G1 = random.uniform(0,255)
+        B1 = random.uniform(0,255)
+
+        Glob.wait_colour = [[R0, G0, B0],[R1, G1, B1]]
+        Glob.wait_pos = random.shuffle
 
         print('initialise wait')
 
@@ -81,11 +95,20 @@ async def waiting(ws):
 
     if Glob.t < Glob.patience:
 
+        await preq.bloop(Glob.patience, Glob.wait_colour[0], Glob.wait_colour[1], 0.01)
+        await preq.shift()
+
         f = 0       # do the waiting behaviour here
 
     elif Glob.t >= Glob.patience:       # greet 
 
-        f = 0
+        if Glob.initiative == 1:
+
+            f = 0
+
+        elif Glob.initiative == 0:
+        
+            f = 0                   # reset
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
@@ -268,8 +291,6 @@ async def AWAKE(ws):
     global current_state, current_behaviour
     global start_time, t, duration
     global p, l0, l1
-
-    data = []
 
     if Glob.current_state != 'AWAKE':
         print('awaken')
