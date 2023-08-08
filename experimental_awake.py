@@ -72,6 +72,7 @@ async def waiting(ws):
         Glob.t = 0
 
         Glob.patience = random.uniform(3,5)     # how long until seeking a reaction
+        Glob.duration = random.uniform ()
         Glob.initiative = random.choices([0,1], [2,1])
 
         print('patience', Glob.patience, 'initiative', Glob.initiative)
@@ -85,7 +86,7 @@ async def waiting(ws):
         B1 = random.uniform(0,255)
 
         Glob.wait_colour = [[R0, G0, B0],[R1, G1, B1]]
-        Glob.wait_pos = random.shuffle
+        Glob.wait_pos = 
 
         print('initialise wait')
 
@@ -119,23 +120,46 @@ async def hug(ws):             #################################################
     if Glob.current_behaviour != 'hugging':              # start hug
 
         Glob.current_behaviour = 'hugging'
-        Glob.hug_type = random.choices([1,2,3], [])
+        Glob.start_time = time.time()
+        Glob.t = 0
 
-        if Glob.hug_type == 1:
-            g = 0
-        elif Glob.hug_type == 2:
+        Glob.patience = random.uniform(5,7)
+        Glob.hug_type = random.choice([1,2])
+
+        if Glob.hug_type == 1:              # starting pos 1
+            await alight_ends(ws, [],[])    # pale pink #####################################################################
+            await preq.simul_inflate(ws, [0.8,0.8,0.8])
+            pass
+
+        elif Glob.hug_type == 2:            # starting pos 2
             f = 0
-        elif Glob.hug_type == 3:
-            f = 0
-    
+
+
     elif Glob.current_behaviour == 'hugging':           # hold hug
         
+        Glob.current_behaviour = 'hugging'
+        Glob.t = time.time() - Glob.start_time
+
         if Glob.hug_type == 1:
-            g = 0
-        elif Glob.hug_type == 2:
+            await preq.bloop(Glob.patience, [],[], 0.05)
+            await asyncio.sleep(0.05)
+    
+    if Glob.t <= Glob.patience:
+
+
+        if Glob.hug_type == 2:
             f = 0
-        elif Glob.hug_type == 3:
-            f = 0
+
+    elif Glob.t > Glob.patience:
+
+        await preq.bloop()
+
+
+
+    
+    
+        
+
 
 async def waving(ws):
     r = 0
