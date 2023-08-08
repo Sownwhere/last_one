@@ -109,29 +109,13 @@ def math_bowing():
 
 
 
-
-
-    
-    
-def signal_Jump():
-    up = abs(Glob.Velocity[1])  
-    Left = abs(Glob.Velocity[0])
-    far = abs(Glob.Velocity[2])
-    # print(up)
-    # print(up)
-    # print(up)
-    # print(up)
-    # print(up)
-    
-    
-    if up>0.2 and (Left <0.1 and far<0.1) :
-        Glob.signJump = True
+def signal_jumping():
+    if Glob.actions ==  'jump up':
+        Glob.signJump  = True
     else:
-        Glob.signJump = False
-    #print("res",Glob.signJump)
+        Glob.signJump  = False
     return Glob.signJump
-
-
+        
 
 
 # def signal_Waving():
@@ -141,21 +125,15 @@ def signal_Jump():
 #         Glob.signWaving= False
 #     return  Glob.signWaving
 
-
-def signal_jumping():
-    if Glob.actions ==  'jump up':
-        Glob.signJump  = True
-    else:
-        Glob.signJump  = False
-    return Glob.signJump
-        
-
 def signal_Waving():
     avvel = 0 
     for i in range(3):
         avvel = abs(Glob.Velocity[i]) +avvel
     avvel = avvel/3  
-    if (Glob.l_Elbow[0]>0.4 or Glob.l_Elbow[2]>0.4 or Glob.r_Wrist[0]>0.4 or Glob.r_Wrist[2]>0.4)  and avvel<0.03 and math_bowing()!=True or Glob.actions == 'move hand' :
+    if (Glob.l_Elbow[0]>0.4 or 
+        Glob.l_Elbow[2]>0.4 or 
+        Glob.r_Wrist[0]>0.4 or 
+        Glob.r_Wrist[2]>0.4) and avvel<0.03 and math_bowing() != True or Glob.actions == 'move hand' :
         Glob.signWaving =True
     else:
         Glob.signWaving= False
@@ -193,7 +171,7 @@ def signal_hug(distance):
 def signal_tickle(distance_lhand,distance_rhand):
     
 
-    if distance_lhand<= 0.36 or distance_rhand<= 0.36:
+    if distance_lhand <= 0.36 or distance_rhand <= 0.36:
 
         Glob.signtickle = True
         

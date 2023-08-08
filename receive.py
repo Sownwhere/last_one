@@ -48,3 +48,4 @@ async def receive_data(actions,zed_signal_attrs, lock1,lock2):
         finally:
             lock1.release()
             await asyncio.sleep(0.1)
+

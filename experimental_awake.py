@@ -190,30 +190,6 @@ async def tickle(ws):
     p = [0.5, 0.5, 1]
     await simul_inflate(ws, p)
     await asyncio.sleep(0.1)
-       
-async def wait(ws):     #######################################################
-
-    print('waiting')
-
-    if Glob.current_behaviour != 'waiting':
-
-        Glob.current_behaviour = 'waitng'
-        Glob.start_time = time.time()
-        Glob.t = 0
-
-        Glob.wait_threshold = random.uniform(5,7)       # arbitrary. adjust
-        Glob.action_duration = random.uniform(5,7)      # arbitrary. adjust
-
-    elif Glob.curent_behaviour == 'waiting':
-
-        Glob.current_behaviour = 'waiitng'
-        Glob.t = time.time() - Glob.start_time
-
-    async def neutral(ws):
-        f = 0
-
-    async def seek(ws):
-        f = 0
         
 async def jumping(ws):
     print("dfffehfeuiiiefi")
