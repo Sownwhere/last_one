@@ -134,7 +134,7 @@ def main(smm_name,actions,zed_signal_attrs,lock,lock1,lock2):
         s = time.time() 
         with lock:
             existing_smm = shared_memory.SharedMemory(name=smm_name)
-            np_array = np.ndarray((1, num_frame,  keypoint, 2), dtype=np.float64, buffer=existing_smm.buf)
+            np_array = np.ndarray((1, num_frame,  keypoint, 2), dtype = np.float64, buffer=existing_smm.buf)
             tmp[:]=np_array
             existing_smm.close()
 

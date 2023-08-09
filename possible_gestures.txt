@@ -7,13 +7,13 @@ GREAT 有用 -------------------------------------------------------------------
 > SOCIAL BEHAVIOURS - GREETINGS AND PROVOCATIONS
 > 打招呼，引起注意而激发某种反应的动作 - 运用可能最大的
 > most promising - seeking interaction, likely done @ robot
-hand waving
-pointing at something with finger
+    hand waving
+    pointing at something with finger
 nodding/bowing
 salute
-clapping 
-palms together
-rubbing hands together
+    clapping 
+    palms together
+    rubbing hands together
 cross hands in front X 
 shaking head
 
@@ -33,15 +33,15 @@ POTENTIALLY USEABLE 可能有用 -----------------------------------------------
 > actions done @ self  - hand motions
 drink water            
 eat meal/snack
-brushing teeth
-brushing hair
+    brushing teeth
+    brushing hair
 wear glasses
 take off glasses
 put on hat
 take off hat
 wiping face
-touching head  
-touching neck
+    touching head  
+    touching neck
 using a fan/fanning oneself
 
 > SELF ACTIONS - CHEST LEVEL
@@ -52,7 +52,7 @@ writing
 tearing up paper
 answering phone
 playing on phone
-touching chest
+    touching chest
 touching back
 typing on keyboard
 checking watch

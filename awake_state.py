@@ -147,26 +147,36 @@ async def AWAKE(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCTURE
             await tickle(ws)
             
         elif (signal_Waving() and math_bowing() and signal_hug(Glob.distance))!= True:            # more variety
-            Glob.current_behaviour = 'waiting'
-            print('waiting')
-            await preq.reset(ws) 
+
+            if Glob.actions == :
+            
 
 
-            r_min, r_max = 100, 150
-            g_min, g_max = 0, 80
-            b = 255
-            
-            num_pixels = 256  # Number of pixels in the gradient
-            
-            for i in range(10):
-                # Calculate the current position in the gradient                        
-                position = i / (num_pixels - 1)
+
+
+
+            else:
+
+                Glob.current_behaviour = 'waiting'
+                print('waiting')
+                await preq.reset(ws) 
+
+
+                r_min, r_max = 100, 150
+                g_min, g_max = 0, 80
+                b = 255
                 
-                # Use sine functions to interpolate between R and G values
-                r = int(r_min + (r_max - r_min) * (math.sin(2 * math.pi * position) + 1) / 2)
-                g = int(g_min + (g_max - g_min) * (math.sin(2 * math.pi * position + math.pi) + 1) / 2)
-            
-                await preq.alight_ends(ws,[r,g,b],[r+20,g+20,b])
+                num_pixels = 256  # Number of pixels in the gradient
+                
+                for i in range(10):
+                    # Calculate the current position in the gradient                        
+                    position = i / (num_pixels - 1)
+                    
+                    # Use sine functions to interpolate between R and G values
+                    r = int(r_min + (r_max - r_min) * (math.sin(2 * math.pi * position) + 1) / 2)
+                    g = int(g_min + (g_max - g_min) * (math.sin(2 * math.pi * position + math.pi) + 1) / 2)
+                
+                    await preq.alight_ends(ws,[r,g,b],[r+20,g+20,b])
 
         else:
             pass
