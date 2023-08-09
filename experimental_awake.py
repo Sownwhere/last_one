@@ -123,17 +123,21 @@ async def hug(ws):             #################################################
         Glob.start_time = time.time()
         Glob.t = 0
 
-        Glob.patience = random.uniform(5,7)
         Glob.hug_type = random.choice([1,2])
 
         if Glob.hug_type == 1:              # starting pos 1
-            await alight_ends(ws, [],[])    # pale pink #####################################################################
+            Glob.patience = random.uniform(3,5)
+            await alight_ends(ws, [255,255,255],[255,50,100])    # pale pink #####################################################################
             await preq.simul_inflate(ws, [0.8,0.8,0.8])
             pass
 
         elif Glob.hug_type == 2:            # starting pos 2
-            f = 0
+            Glob.patience = random.uniform(2,4)
+            await alight_ends(ws, [255,50,150],[255,50,150])    # pale pink #####################################################################
+            await preq.simul_inflate(ws, [0.8,0.8,0.8])
+            pass
 
+        print('hug initialised')
 
     elif Glob.current_behaviour == 'hugging':           # hold hug
         
@@ -141,9 +145,23 @@ async def hug(ws):             #################################################
         Glob.t = time.time() - Glob.start_time
 
         if Glob.hug_type == 1:
-            await preq.bloop(Glob.patience, [],[], 0.05)
+            await preq.bloop(Glob.patience, [255,0,255],[255,0,0], 0.05)
             await asyncio.sleep(0.05)
+            pass
+
+        elif Glob.hug_type == 2:
+            
+            if Glob.t <= Glob.patience:
+                await asyncio.sleep(0.1)
+                pass
+            
+            elif Glob.t > Glob.patience:
+                await simul_inflate(ws, [1,1,1])
+                await alight_ends(ws, [255,255,255], [255,0,585])
+                await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
     
+
+
     if Glob.t <= Glob.patience:
 
 

@@ -26,7 +26,8 @@ async def squid_game(ws):
             await asyncio.sleep(0.1)
 
         elif prostate == 1:                         # STATE 1
-
+            
+            if len(data) > 0:
             #Data Saving
             current_datetime = datetime.now().strftime("%Y-%m-%d %H_%M_%S")
             usb_key_path = r"C:\Users\Science Gallery\Desktop\Data" #Replace with path

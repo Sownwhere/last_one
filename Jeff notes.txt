@@ -52,5 +52,15 @@ conclusions - one scaling, one full, one zilch
 SCALING and FULL mix as main. STATIC propogates
 -----------------------------------------------
 
+CONTINUOUS LOOP
+async def up_bloop(ws):                         # blue shift upwards continuous loop
+    sta = 585
+    fin = 910                                                 
+    await preq.full_reset(ws)
+    await asyncio.sleep(1)
+    await alight_ends(ws, [255,255,255], [sta, sta, 255])
+    while True:
+        await flow(ws, 1, [[255,255,255],[fin,fin,255]])
+        await alight_ends(ws, [255,255,255], [sta, sta, 255])
 
 
