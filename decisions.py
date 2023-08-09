@@ -10,6 +10,7 @@ from skelCoord import *
 import Prerequisites as preq
 from Glob import Glob
 import math
+import random
 
 
 
@@ -109,13 +110,6 @@ def math_bowing():
 
 
 
-def signal_jumping():
-    if Glob.actions ==  'jump up':
-        Glob.signJump  = True
-    else:
-        Glob.signJump  = False
-    return Glob.signJump
-        
 
 
 # def signal_Waving():
@@ -124,6 +118,15 @@ def signal_jumping():
 #     else:
 #         Glob.signWaving= False
 #     return  Glob.signWaving
+
+
+def signal_jumping():
+    if Glob.actions ==  'jump up':
+        Glob.signJump  = True
+    else:
+        Glob.signJump  = False
+    return Glob.signJump
+        
 
 def signal_Waving():
     avvel = 0 
