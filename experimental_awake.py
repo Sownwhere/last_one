@@ -114,7 +114,7 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):             
+async def hug(ws):                                                  ######################## TEST TEST TEST ######################    
     print("huggin")
 
     if Glob.current_behaviour != 'hugging':              # start hug
