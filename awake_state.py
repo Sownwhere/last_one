@@ -121,52 +121,16 @@ async def AWAKE(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCTURE
 
     elif Glob.current_state == 'AWAKE':    
         
-    ### DATA SAVING #######################################################################################################################################
-
-        def save_data_to_excel(data, file_path):
-            #print('a')
-            df = pd.DataFrame(data)  # Create a DataFrame from the data
-            #print('b')
-            #print(data)
-            #print('df is', df)
-            df.to_excel(file_path, index = False)  # Save the DataFrame to Excel without header
-            #print('c')
-            data = []  # Reset the data list
-            #print('d')
-
-        # Your data collection logic goes here
-        # Append the collected data to the 'data' list
-
-        # interval_minutes = 1  # Time interval in minutes
-
-        # current_minutes = time.localtime().tm_min
-        # current_seconds = time.localtime().tm_sec
-        # print(current_minutes,current_seconds)
-
-        # if current_minutes%interval_minutes==0 and current_seconds==0:
-        #     #print('1')
-        #     current_datetime = datetime.now().strftime("%Y-%m-%d %H_%M_%S")  # Replace colon with underscore
-        #     #print('2')
-        #     #data.append(0)
-        #     data.append([current_datetime, Glob.current_behaviour, Glob.threedim, Glob.twodim, Glob.Position, Glob.Velocity, Glob.p, Glob.l0, Glob.l1])
-        #     #print('3')
-        #     usb_key_path = r"C:\Users\Science Gallery\Desktop\Data"  # Replace with the actual path to your USB key
-        #     file_name = f"data_{current_datetime}.xlsx"
-        #     file_path = usb_key_path + "\\" + file_name  # Use double backslashes to escape the backslash character
-        #     try:
-        #         save_data_to_excel(data, file_path)
-        #     except Exception as e:
-        #         print("Error occurred while saving the Excel file:", str(e))
-          
     ########################################################################################################################################
         print('jumping is', signal_jumping())
         print('waving is', signal_Waving())
         print('bowing is', math_bowing())
+       
         print('hugging is',signal_hug(Glob.distance))
-        if signal_jumping()==True:
+        if signal_jumping()==True and signal_hug!=True:
             await preq.jumping(ws)
         
-        elif signal_Waving() and (Glob.distance < 2 and (signal_hug(Glob.distance)!=True and math_bowing()!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)!=True)):
+        elif signal_Waving() and (Glob.distance < 2 and (signal_hug(Glob.distance)!=True and math_bowing()!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand and signal_jumping!=True)!=True)):
             Glob.current_behaviour = 'waving'
             await preq.waving(ws)
             
@@ -186,6 +150,8 @@ async def AWAKE(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCTURE
             Glob.current_behaviour = 'waiting'
             print('waiting')
             await preq.reset(ws) 
+
+
             r_min, r_max = 100, 150
             g_min, g_max = 0, 80
             b = 255
@@ -201,6 +167,9 @@ async def AWAKE(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCTURE
                 g = int(g_min + (g_max - g_min) * (math.sin(2 * math.pi * position + math.pi) + 1) / 2)
             
                 await preq.alight_ends(ws,[r,g,b],[r+20,g+20,b])
-                
+
         else:
             pass
+            
+    else:
+        pass
