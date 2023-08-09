@@ -1,0 +1,98 @@
+RECOGNISABLE GESTURES - v.1
+大致分类了一下 从上到下有用到没用的排列
+broadly sorted into categories, listed from most to least promising
+
+GREAT 有用 ----------------------------------------------------------------------------
+
+> SOCIAL BEHAVIOURS - GREETINGS AND PROVOCATIONS
+> 打招呼，引起注意而激发某种反应的动作 - 运用可能最大的
+> most promising - seeking interaction, likely done @ robot
+hand waving
+pointing at something with finger
+nodding/bowing
+salute
+clapping 
+palms together
+rubbing hands together
+cross hands in front X 
+shaking head
+
+> WHOLE BODY MOTIONS
+> 幅度大，全身活动的动作 - 运用可能极大
+> also promising - whole body interactions maybe provoke larger reactions
+sitting down
+standing up (from sitting)
+hopping (jumping on one foot)
+jump up
+staggering
+falling
+
+POTENTIALLY USEABLE 可能有用 --------------------------------------------------------------
+> SELF ACTIONS - HEAD LEVEL
+> 小幅度，自我中心的动作，手在头部范围活动 
+> actions done @ self  - hand motions
+drink water            
+eat meal/snack
+brushing teeth
+brushing hair
+wear glasses
+take off glasses
+put on hat
+take off hat
+wiping face
+touching head  
+touching neck
+using a fan/fanning oneself
+
+> SELF ACTIONS - CHEST LEVEL
+> 小幅度，自我中心的动作，手在胸前范围活动
+> actions done @ self, as above   - hand motions
+reading
+writing
+tearing up paper
+answering phone
+playing on phone
+touching chest
+touching back
+typing on keyboard
+checking watch
+
+
+LIMITED OR UNUSABLE 大概没用 -----------------------------------------------------------------
+< OTHER OBJECT REQUIRED 
+< 另需物件
+drop
+pickup
+throw
+kicking something
+
+< UNLIKELY ACTION TO TRIGGER
+< 激活概率小
+put on jacket
+take off jacket
+wear a shoe
+take off shoe
+
+< IRRELEVANT 
+< 无关
+nausea or vomiting condition (????????????????)
+sneezing/coughing       - although to be fair it would be funny if it could go 'bless you'
+reaching into pocket
+
+< IDK WHAT THESE MEAN
+< 这啥啊
+cheer up (?????)
+
+< REQUIRES TWO PEOPLE - DIFFICULT TO TRIGGER
+< 需多人激活，难以应用
+punching/slapping another
+kicking another
+pushing another
+pat on the back to another
+pointing at another
+hugging another
+giving something to another
+touching other person's pocket
+handshaking
+walking towards each other
+walking apart from each other
