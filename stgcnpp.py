@@ -114,11 +114,11 @@ def main(smm_name,actions,zed_signal_attrs,lock,lock1,lock2):
 
     print("star time")
     s = time.time()
-    tmp = np.load('skeletondata/keypoint1.npy', allow_pickle=True)
+    tmp = np.load('C:/Users/Science Gallery/Desktop/action_recognition/skeletondata/keypoint1.npy', allow_pickle=True)
     tmp = tmp[:,:20,:,:]
     fake_anno['keypoint'] =np.copy(tmp)
     print(fake_anno['keypoint'].shape)
-    tmp1 = np.load('skeletondata/keypoint_score1.npy', allow_pickle=True)
+    tmp1 = np.load('C:/Users/Science Gallery/Desktop/action_recognition/skeletondata/keypoint_score1.npy', allow_pickle=True)
     tmp1 = tmp1[:,:20,:]
     fake_anno['keypoint_score'] = np.copy(tmp1)
     print(fake_anno['keypoint_score'].shape)

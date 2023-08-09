@@ -7,7 +7,7 @@ import asyncio
 
 def main_function_process(actions,zed_signal_attrs, lock1,lock2):
 
-    asyncio.run(main_functions(actions,zed_signal_attrs, lock1,lock2))
+    asyncio.run(main_functions(actions, zed_signal_attrs, lock1, lock2))
 
 # 在进程中启动
 

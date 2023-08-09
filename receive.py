@@ -13,7 +13,7 @@ def convert_to_move_hand(input_string):
         return input_string
 
 async def receive_data(actions,zed_signal_attrs, lock1,lock2):
-    
+
     while True:
         
         lock2.acquire()
