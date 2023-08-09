@@ -40,8 +40,8 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
     async def bloom():
         print('bloom')
 
-    async def wink(ws):                 # 2 ~# bruh     # colour change one atm
-        print('wink')
+    async def bloom(ws):                 # 2 ~# bruh     # colour change one atm
+        print('bloom')
         downtime = 1.5 
         down = [[0,0,0], [0,0,0]]
         await preq.flow(ws, downtime, down)
@@ -114,26 +114,26 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):             ######################################################
+async def hug(ws):             
     print("huggin")
 
     if Glob.current_behaviour != 'hugging':              # start hug
 
         Glob.current_behaviour = 'hugging'
         Glob.start_time = time.time()
-        Glob.t = 0
+        Glob.t = 0 
 
-        Glob.hug_type = random.choice([1,2])
+        # Glob.hug_type = random.choice([1,2]) #############################################
+        Glob.hug_type = 1 ###################################################
 
         if Glob.hug_type == 1:              # starting pos 1
             Glob.patience = random.uniform(3,5)
-            await alight_ends(ws, [255,255,255],[255,50,100])    # pale pink #####################################################################
-            await preq.simul_inflate(ws, [0.8,0.8,0.8])
+            await alight_ends(ws, [255,100,100],[255,100,100])    
             pass
 
         elif Glob.hug_type == 2:            # starting pos 2
             Glob.patience = random.uniform(2,4)
-            await alight_ends(ws, [255,50,150],[255,50,150])    # pale pink #####################################################################
+            await alight_ends(ws, [255,50,150],[255,50,150])    
             await preq.simul_inflate(ws, [0.8,0.8,0.8])
             pass
 
@@ -144,40 +144,25 @@ async def hug(ws):             #################################################
         Glob.current_behaviour = 'hugging'
         Glob.t = time.time() - Glob.start_time
 
-        if Glob.hug_type == 1:
-            await preq.bloop(Glob.patience, [255,0,255],[255,0,0], 0.05)
-            await asyncio.sleep(0.05)
+        if Glob.t < Glob.patience:
+
+            await asyncio.sleep(0.1)
             pass
 
-        elif Glob.hug_type == 2:
-            
-            if Glob.t <= Glob.patience:
-                await asyncio.sleep(0.1)
-                pass
-            
-            elif Glob.t > Glob.patience:
+        elif Glob.t >= Glob.patience:
+
+            if Glob.hug_type == 1:
+                await preq.bloop(Glob.patience, [255,0,255],[255,0,0], 0.05)
+                await asyncio.sleep(0.05)
+
+            elif Glob.hug_type == 2:
+                
                 await simul_inflate(ws, [1,1,1])
                 await alight_ends(ws, [255,255,255], [255,0,585])
                 await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
-    
-
-
-    if Glob.t <= Glob.patience:
-
-
-        if Glob.hug_type == 2:
-            f = 0
-
-    elif Glob.t > Glob.patience:
-
-        await preq.bloop()
-
 
 
     
-    
-        
-
 
 async def waving(ws):
     r = 0
@@ -367,9 +352,15 @@ async def AWAKE(ws):
 #     while True:
 #         await ws.recv()
 
-# async def yaught(ws):
-#     while True:
-#         await AWAKE(ws)
+async def yaught(ws):
+    await preq.full_reset(ws)
+    await asyncio.sleep(2)
+    while True:
+        print('begin')
+
+        await hug(ws)
+
+        print('end')
 
 # async def test():    # testing continuously
 

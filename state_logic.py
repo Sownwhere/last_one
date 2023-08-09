@@ -16,7 +16,7 @@ async def recvpump(ws):
     """Empty the recv buffer, doing nothing with the messages."""
     while True:
         await ws.recv()
-        
+
 async def squid_game(ws):       
     
     global data
