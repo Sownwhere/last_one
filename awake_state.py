@@ -148,12 +148,14 @@ async def AWAKE(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCTURE
             
         elif (signal_Waving() and math_bowing() and signal_hug(Glob.distance))!= True:            # more variety
 
-            if Glob.actions == :
-            
+            interesting_actions = ['hand waving', 'pointing to something with finger','clapping', 
+                                   'put the palms together', 'rub two hands together', 'brushing teeth', 
+                                   'brushing hair', 'touch head (headache)', 'touch chest (stomachache/heart pain)', 
+                                   'touch neck (neckache)']
 
+            if Glob.actions in interesting_actions:
 
-
-
+                await preq.alight(ws, 130,240,20)
 
             else:
 
