@@ -216,14 +216,14 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
                 print('turnover') 
 
                 if Glob.t <= Glob.duration/2:
-                    await preq.bloop(Glob.duration/2, [255,255,0], [500,255,0], 0.05)
-                    await preq.shift(Glob.duration/2, [1,0,1], 0.05)
+                    await preq.bloop(Glob.duration/2, [255,255,0], [500,255,0])
+                    await preq.shift(Glob.duration/2, [1,0,1])
                     await asyncio.sleep(0.05)
                     print('turnover halfway')
 
                 elif Glob.t < Glob.duration:
-                    await preq.bloop(Glob.duration/2, [0,0,0], [0,0,0], 0.05)
-                    await preq.shift(Glob.duration/2, [0.8,1,1], 0.05)
+                    await preq.bloop(Glob.duration/2, [0,0,0], [0,0,0])
+                    await preq.shift(Glob.duration/2, [0.8,1,1])
                     await asyncio.sleep(0.05)
                     print('end turnover')
 
@@ -234,25 +234,25 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
                 await preq.simul_inflate(ws,[0.8,0.8,0.8])
 
                 if Glob.t <= Glob.duration/4:
-                    await preq.bloop(Glob.duration/4, Glob.dA_0, Glob.dA_1, 0.05)
+                    await preq.bloop(Glob.duration/4, Glob.dA_0, Glob.dA_1)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)
                     await asyncio.sleep(0.05)
                     print('dream_seq1')
 
                 elif Glob.t <= Glob.duration*1/2:
-                    await preq.bloop(Glob.duration/4, Glob.dB_0, Glob.dB_1, 0.05)
+                    await preq.bloop(Glob.duration/4, Glob.dB_0, Glob.dB_1)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)
                     await asyncio.sleep(0.05)
                     print('dream_seq2')
 
                 elif Glob.t <= Glob.duration*3/4:
-                    await preq.bloop(Glob.duration/4, Glob.dC_0, Glob.dC_1, 0.05)
+                    await preq.bloop(Glob.duration/4, Glob.dC_0, Glob.dC_1)
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)                    
                     await asyncio.sleep(0.05)
                     print('dream_seq3')
 
                 elif Glob.t < Glob.duration:
-                    await preq.bloop(Glob.duration/4 - 0.02, [0,0,0], [0,0,0], 0.05)
+                    await preq.bloop(Glob.duration/4 - 0.02, [0,0,0], [0,0,0])
                     await preq.alight_ends(ws, Glob.l0, Glob.l1)
                     await asyncio.sleep(0.05)
                     print('end dream_seq')

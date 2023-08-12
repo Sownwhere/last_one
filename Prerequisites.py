@@ -111,10 +111,7 @@ async def flow(ws, flow_duration, target_lights):       # Uninterruptible; short
 
 # LIGHTS : bloop() over long period - interruptible
 
-async def bloop(bloop_duration, target_0, target_1, refresh_rate):             # Interruptible. over long period 
-
-    bloop_refresh = refresh_rate
-    n = bloop_duration*bloop_refresh
+async def bloop(bloop_duration, target_0, target_1):             # Interruptible. over long period 
 
     def start_new_bloop():
 
@@ -180,10 +177,7 @@ async def bloop(bloop_duration, target_0, target_1, refresh_rate):             #
     
 # MOTION : shift() over long period - interruptible
 
-async def shift(shift_duration, target_p, refresh_rate):             # Interruptible. over long period 
-
-    shift_refresh = refresh_rate
-    n = shift_duration*shift_refresh
+async def shift(shift_duration, target_p):             # Interruptible. over long period 
 
     def start_new_shift():
 
