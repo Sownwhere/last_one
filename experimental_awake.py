@@ -1,4 +1,5 @@
-### 森罗万象 i hate myself. lets go
+###  i hate myself. lets go
+# hug works
 
 from imports import *
 from Glob import Glob
@@ -123,20 +124,13 @@ async def hug(ws):                                                  ############
         Glob.start_time = time.time()
         Glob.t = 0 
 
-        # Glob.hug_type = random.choice([1,2]) #############################################
-        Glob.hug_type = 2 ###################################################
-
-        if Glob.hug_type == 1:              # starting pos 1
-            Glob.patience = random.uniform(1,2)
-            await alight_ends(ws, [255,255,255],[255,100,100]) 
-            await preq.simul_inflate(ws, [0.6,0.6,0.6])
-            pass
-
-        elif Glob.hug_type == 2:            # starting pos 2
-            Glob.patience = random.uniform(3,4)
-            await alight_ends(ws, [255,100,100],[255,50,150])    
-            await preq.simul_inflate(ws, [0.6,0.6,0.6])
-            pass
+        Glob.patience = random.uniform(1,2)
+        await alight_ends(ws, [255,255,255],[255,100,100])
+        p0 = random.uniform([0.5,0.7])
+        p1 = random.uniform([0.5,0.7])
+        p2 = random.uniform([0.5,0.7])
+        await preq.simul_inflate(ws, [p0, p1, p2])
+        pass
 
         print('hug initialised')
 
@@ -152,17 +146,18 @@ async def hug(ws):                                                  ############
 
         elif Glob.t >= Glob.patience:
 
-            if Glob.hug_type == 1:
-                print('changing')
-                await preq.bloop(3, [255,0,255],[255,0,255], 0.05)
-                await alight_ends(ws, Glob.l0, Glob.l1)
-                await asyncio.sleep(0.05)
+            print('changing')
+            await preq.bloop(3, [255,0,255],[255,0,255], 0.05)
+            await alight_ends(ws, Glob.l0, Glob.l1)
+            await asyncio.sleep(0.05)
 
-            elif Glob.hug_type == 2:
-                
-                await simul_inflate(ws, [1,1,1])
-                await alight_ends(ws, [255,255,255], [255,0,585])
-                await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
+async def tickle(ws):
+
+    p0 = random.uniform([0.4,1])
+    p1 = random.uniform([0.4,1])
+    p2 = random.uniform([0.4,1])          
+    await alight_ends(ws, [255,255,255], [255,0,585])
+    await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
 
 async def waving(ws):
    
