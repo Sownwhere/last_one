@@ -225,7 +225,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             elif Glob.dream_type == 2:
 
                 # print('dream_sequence')
-                await preq.simul_inflate(ws,[0.8,0.8,0.8])
+                await preq.simul_inflate(ws,[0.9,0.9,0])
 
                 if Glob.t <= Glob.duration*0.25:
                     await preq.bloop(Glob.duration/4, Glob.dA_0, Glob.dA_1, 0.05)

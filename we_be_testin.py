@@ -91,25 +91,28 @@ async def directional_test(ws):
     await preq.alight(ws,0,700,255)
 
     while True:
-        p = [1,1,0.2]
+        p = [1,1,0]
         await preq.simul_inflate(ws, p)
+        await alight(ws,0,0,255)
         print(1)
-        await asyncio.sleep(2)
-        await preq.reset(ws)
+        await asyncio.sleep(3)
+        await preq.full_reset(ws)
         await asyncio.sleep(1)
 
         p = [1,0,1]
         await preq.simul_inflate(ws, p)
         print(2)
-        await asyncio.sleep(2)
-        await preq.reset(ws)
+        await alight(ws,0,255,0)
+        await asyncio.sleep(3)
+        await preq.full_reset(ws)
         await asyncio.sleep(1)
 
         p = [0.2,1,1]
         await preq.simul_inflate(ws, p)
+        await alight(ws,255,0,0)
         print(3)
-        await asyncio.sleep(2)
-        await preq.reset(ws)
+        await asyncio.sleep(3)
+        await preq.full_reset(ws)
         await asyncio.sleep(1)
 
 
@@ -122,11 +125,11 @@ async def blarp_test():    # testing
         while True: 
             tasks = [
             asyncio.ensure_future(directional_test(ws)),                                
-            #asyncio.ensure_future(preq.simul_inflate(ws,[1,1,0.2])),                  # test chambers
+            #asyncio.ensure_future(preq.simul_inflate(ws,[1,1,0])),                  # test chambers
             #asyncio.ensure_future(preq.alight_ends(ws, [0,0,0],[600,600,600])),         # test lights
             asyncio.ensure_future(recvpump(ws))              
             ]
-            
+        
             await asyncio.wait(tasks) 
              
 
