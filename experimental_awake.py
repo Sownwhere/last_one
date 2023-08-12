@@ -86,7 +86,7 @@ async def waiting(ws):
         B1 = random.uniform(0,255)
 
         Glob.wait_colour = [[R0, G0, B0],[R1, G1, B1]]
-        Glob.wait_pos = 
+        Glob.wait_pos = 0
 
         print('initialise wait')
 
@@ -124,17 +124,18 @@ async def hug(ws):                                                  ############
         Glob.t = 0 
 
         # Glob.hug_type = random.choice([1,2]) #############################################
-        Glob.hug_type = 1 ###################################################
+        Glob.hug_type = 2 ###################################################
 
         if Glob.hug_type == 1:              # starting pos 1
-            Glob.patience = random.uniform(3,5)
-            await alight_ends(ws, [255,100,100],[255,100,100])    
+            Glob.patience = random.uniform(1,2)
+            await alight_ends(ws, [255,255,255],[255,100,100]) 
+            await preq.simul_inflate(ws, [0.6,0.6,0.6])
             pass
 
         elif Glob.hug_type == 2:            # starting pos 2
-            Glob.patience = random.uniform(2,4)
-            await alight_ends(ws, [255,50,150],[255,50,150])    
-            await preq.simul_inflate(ws, [0.8,0.8,0.8])
+            Glob.patience = random.uniform(3,4)
+            await alight_ends(ws, [255,100,100],[255,50,150])    
+            await preq.simul_inflate(ws, [0.6,0.6,0.6])
             pass
 
         print('hug initialised')
@@ -145,14 +146,16 @@ async def hug(ws):                                                  ############
         Glob.t = time.time() - Glob.start_time
 
         if Glob.t < Glob.patience:
-
+            print('wait')
             await asyncio.sleep(0.1)
             pass
 
         elif Glob.t >= Glob.patience:
 
             if Glob.hug_type == 1:
-                await preq.bloop(Glob.patience, [255,0,255],[255,0,0], 0.05)
+                print('changing')
+                await preq.bloop(3, [255,0,255],[255,0,255], 0.05)
+                await alight_ends(ws, Glob.l0, Glob.l1)
                 await asyncio.sleep(0.05)
 
             elif Glob.hug_type == 2:
@@ -210,7 +213,8 @@ async def jumping(ws):
     jomp_col = random.choice([1,2,3])
 
     await simul_inflate(ws,[1,1,1])
-    if jump_col == 1
+    if jump_col == 1:
+        f = 0
 
     await preq.alight
 
@@ -361,35 +365,33 @@ async def AWAKE(ws):
 ############################################################################################################
 ##############################################   TEST  #####################################################
 
-# async def recvpump(ws):
-#     while True:
-#         await ws.recv()
+async def recvpump(ws):
+    while True:
+        await ws.recv()
 
 async def yaught(ws):
     await preq.full_reset(ws)
     await asyncio.sleep(2)
     while True:
-        print('begin')
 
         await hug(ws)
 
-        print('end')
 
-# async def test():    # testing continuously
+async def test():    # testing continuously
 
-#     async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
-#             while True:
-#                 tasks = [                                       
-#                 asyncio.ensure_future(yaught(ws)),                
-#                 asyncio.ensure_future(recvpump(ws))             
-#                 ]
-#                 await asyncio.wait(tasks)    
+    async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
+            while True:
+                tasks = [                                       
+                asyncio.ensure_future(yaught(ws)),                
+                asyncio.ensure_future(recvpump(ws))             
+                ]
+                await asyncio.wait(tasks)    
 
 
-# if __name__ == "__main__":
-#     logging.basicConfig(
-#         format="%(asctime)s %(message)s",
-#         level=logging.CRITICAL #.DEBUG,
-#     )
+if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s %(message)s",
+        level=logging.CRITICAL #.DEBUG,
+    )
 
-#     asyncio.run(test())     
+    asyncio.run(test())     
