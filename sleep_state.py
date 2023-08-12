@@ -22,7 +22,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 
     async def sleeby():                         # inhale exhale cycle
 
-        volume = [1.0, 0.4]                     # chamber volume ceiling/floor
+        volume = [0.7, 0.2]                     # chamber volume ceiling/floor
         brightness = [1, 0.1]                   # light values ceiling/floor
 
         max_pressures = [0.9,0.8,1]
@@ -30,7 +30,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
         base_colour_1 = [255,50,0]
 
         breath_time_range = [8,12]              # t range for inhale exhale
-        hold_time_range = [1,3]                 # t range for breath hold
+        hold_time_range = [1,2]                 # t range for breath hold
         pauses = [1.0, 1.1, 1.2, 2.0, 3.0]      # t range for pause between 
         weights = [3, 3, 2, 1, 1]   
         
@@ -213,12 +213,12 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 
                 if Glob.t <= Glob.duration/2:
                     await preq.bloop(Glob.duration/2, [255,255,0], [500,255,0], 0.05)
-                    await preq.shift(Glob.duration/2, [1,0,1], 0.05)
+                    await preq.shift(Glob.duration/2, [1,1,1], 0.05)
                     await asyncio.sleep(0.05)
 
                 elif Glob.t < Glob.duration:
                     await preq.bloop(Glob.duration/2, [0,0,0], [0,0,0], 0.05)
-                    await preq.shift(Glob.duration/2, [0.8,1,1], 0.05)
+                    await preq.shift(Glob.duration/2, [1,1,0], 0.05)
                     await asyncio.sleep(0.05)
 
 
