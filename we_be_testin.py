@@ -124,7 +124,7 @@ async def blarp_test():    # testing
     async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
         while True: 
             tasks = [
-            #asyncio.ensure_future(whew(ws)),                                
+            asyncio.ensure_future(whew(ws)),                                
             #asyncio.ensure_future(preq.simul_inflate(ws,[1,1,0])),                  # test chambers
             #asyncio.ensure_future(preq.alight_ends(ws, [0,0,0],[600,600,600])),         # test lights
             asyncio.ensure_future(recvpump(ws))              

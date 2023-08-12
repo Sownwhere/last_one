@@ -123,14 +123,13 @@ async def hug(ws):                                                  ############
         Glob.current_behaviour = 'hugging'
         Glob.start_time = time.time()
         Glob.t = 0 
+        Glob.patience = random.uniform(2,3)
 
-        Glob.patience = random.uniform(1,2)
-        await alight_ends(ws, [255,255,255],[255,100,100])
-        p0 = random.uniform([0.5,0.7])
-        p1 = random.uniform([0.5,0.7])
-        p2 = random.uniform([0.5,0.7])
+        await alight_ends(ws, [255,255,255],[255,50,100])
+        p0 = random.uniform(0.4,0.7)
+        p1 = random.uniform(0.4,0.7)
+        p2 = random.uniform(0.4,0.7)
         await preq.simul_inflate(ws, [p0, p1, p2])
-        pass
 
         print('hug initialised')
 
