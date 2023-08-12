@@ -42,7 +42,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
 
     async def bloom(ws):                 # 2 ~# bruh     # colour change one atm
         print('bloom')
-        downtime = 1.5 
+        downtime = 0.5
         down = [[0,0,0], [0,0,0]]
         await preq.flow(ws, downtime, down)
         uptime = 1.5
@@ -114,7 +114,7 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):                                                  ######################## TEST TEST TEST ######################    
+async def hug(ws):                                                  ######################## 'TEST TEST TEST' ######################    
     print("huggin")
 
     if Glob.current_behaviour != 'hugging':              # start hug
@@ -161,25 +161,11 @@ async def hug(ws):                                                  ############
                 await alight_ends(ws, [255,255,255], [255,0,585])
                 await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
 
-
-    
-
 async def waving(ws):
-    r = 0
-    
-    g_min, g_max = 190, 230
-    b_min, b_max = 0, 40
-    
-    num_pixels = 256  # Number of pixels in the gradient
-    
-    for i in range(10):
-        # Calculate the current position in the gradient
-        position = i / (num_pixels - 1)
-        
-        # Use sine functions to interpolate between R and G values
-        b = int(b_min + (b_max - b_min) * (math.sin(2 * math.pi * position) + 1) / 2)
-        g = int(g_min + (g_max - g_min) * (math.sin(2 * math.pi * position + math.pi) + 1) / 2)
-        await preq.alight_ends(ws,[r,g,b],[r,g-40,b])
+   
+    await simul_inflate(ws,[1,0.3,0.3])
+    await preq.alight()
+    await preq.flow(ws, 1, )
     
     p = [0.3, 0.9, 0.3]
     await simul_inflate(ws, p)
@@ -220,23 +206,26 @@ async def tickle(ws):
     await asyncio.sleep(0.1)
         
 async def jumping(ws):
-    print("dfffehfeuiiiefi")
-    await preq.alight_ends(ws,[255,0,0],[255,0,0])
-    await preq.simul_inflate(ws,[1,1,1])
-    await asyncio.sleep(0.1)
+    print('jomp') 
+    jomp_col = random.choice([1,2,3])
+
+    await simul_inflate(ws,[1,1,1])
+    if jump_col == 1
+
+    await preq.alight
 
 # DIRECTED RESPONSES - responses based on relative position --------------------------------------------
 
 async def bow(ws, sextant):
     
-    #Glob.signBowing = True  ################# testing 
     signBowing = Glob.signBowing
     
-    #await reset(ws)         ################# testing
-    #await asyncio.sleep(3)  ################# testing
+    await reset(ws)         ################# testing
+    await asyncio.sleep(3)  ################# testing
 
-    if signBowing == True:
-        await alight_ends(ws,[145,0,255],[145,0,255])
+    # if signBowing == True:
+    while True:
+        await alight_ends(ws,[255,0,255],[255,0,255])
         #await alight_ends(ws,[0,255,0],[0,255,0])
         #print('choosing 1 to 6')
 
@@ -244,46 +233,61 @@ async def bow(ws, sextant):
             print('0')
             pass
     
-        elif sextant == 1:                    # radially; 0 = reach towards chamber 0
-            print('1')
-            await simul_inflate(ws, [1, 0, 0])
-            #await asyncio.sleep(0.5)
-            await asyncio.sleep(1)
-            while Glob.signBowing==True :
-                await simul_inflate(ws, [0.1, 0.4, 0.4])
-                await asyncio.sleep(0.1)
-                math_bowing()
+        elif sextant == 1 or sextant == 2:
+            print('first third')
+            await preq.simul_inflate(ws, [1,1,0])
 
-        elif sextant == 2:
-            print('2')
-            await simul_inflate(ws, [1, 1, 0.2])
+        elif sextant == 3 or sextant == 4:
+            print('second third')
+            await preq.simul_inflate(ws, [0,1,1])
 
-        elif sextant == 3:
-            print('3')
-            await  simul_inflate(ws, [0, 1, 0])
-            await asyncio.sleep(1.2)
-            while Glob.signBowing == True :
-                await simul_inflate(ws, [0.6, 0.0, 0.7])
-                await asyncio.sleep(0.1)
-                math_bowing()
+        elif sextant == 5 or sextant == 6:
+            print('third third')
+            await preq.simul_inflate(ws, [1,0,1])
 
-        elif sextant == 4:
-            print('4')
-            await simul_inflate(ws, [0.1, 0.8, 0.8])
+            
+        # elif sextant == 1:                    # radially; 0 = reach towards chamber 0
+        #     print('1')
+        #     await simul_inflate(ws, [1, 0, 0])
+        #     #await asyncio.sleep(0.5)
+        #     await asyncio.sleep(1)
+        #     while Glob.signBowing==True :
+        #         await simul_inflate(ws, [0.1, 0.4, 0.4])
+        #         await asyncio.sleep(0.1)
+        #         math_bowing()
 
-        elif sextant == 5:
-            print('5')
-            await  simul_inflate(ws, [0, 0, 1])
-            await asyncio.sleep(1)
-            #await asyncio.sleep(0.5)
-            while Glob.signBowing == True:
-                await simul_inflate(ws, [0, 0, 1])
-                await asyncio.sleep(0.1)
-                math_bowing()
+        # elif sextant == 2:
+        #     print('2')
+        #     await simul_inflate(ws, [1, 1, 0.2])
 
-        elif sextant == 6:
-            print('6')
-            await simul_inflate(ws, [1, 0, 1])
+        # elif sextant == 3:
+        #     print('3')
+        #     await  simul_inflate(ws, [0, 1, 0])
+        #     await asyncio.sleep(1.2)
+        #     while Glob.signBowing == True :
+        #         await simul_inflate(ws, [0.6, 0.0, 0.7])
+        #         await asyncio.sleep(0.1)
+        #         math_bowing()
+
+        # elif sextant == 4:
+        #     print('4')
+        #     await simul_inflate(ws, [0.1, 0.8, 0.8])
+
+        # elif sextant == 5:
+        #     print('5')
+        #     await  simul_inflate(ws, [0, 0, 1])
+        #     await asyncio.sleep(1)
+        #     #await asyncio.sleep(0.5)
+        #     while Glob.signBowing == True:
+        #         await simul_inflate(ws, [0, 0, 1])
+        #         await asyncio.sleep(0.1)
+        #         math_bowing()
+
+        # elif sextant == 6:
+        #     print('6')
+        #     await simul_inflate(ws, [1, 0, 1])
+
+        
 
 async def seek(ws, sextant):
 
@@ -298,51 +302,60 @@ async def AWAKE(ws):
     global p, l0, l1
 
     if Glob.current_state != 'AWAKE':
-        print('awaken')
+
         await awaken(ws)
-        print('done')
+
         Glob.current_state == 'AWAKE'
 
     elif Glob.current_state == 'AWAKE':    
-
-        # print('waving is', signal_Waving())
-        # print('bowing is', math_bowing())
-        # print('hugging is',signal_hug(Glob.distance))
         
-        if signal_Waving() and (Glob.distance < 2 and (signal_hug(Glob.distance)!=True and math_bowing()!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)!=True)):
-            # if waving and distance > 2 and not hugging and not bowing and not tickling either hand
-            f = 0   ############################################
-            # print('waving')
-            # await preq.waving(ws)
+        print('jumping is', signal_jumping())
+        print('waving is', signal_Waving())
+        print('bowing is', math_bowing())
+        print('hugging is',signal_hug(Glob.distance))
+
+        if signal_jumping()==True and signal_hug!=True:         
+
+            await preq.jumping(ws)
+        
+        elif signal_Waving() and (Glob.distance < 2 and 
+            (signal_hug(Glob.distance)!=True and math_bowing()!=True and 
+             signal_tickle(Glob.distance_lhand,Glob.distance_rhand and signal_jumping!=True)!=True)):
+            
+            Glob.current_behaviour = 'waving'
+            await preq.waving(ws)
             
         elif math_bowing():
-            # if bowing
-            f = 0   ############################################
-            # print('bows')
-            # await preq.bow(ws, Glob.sextant)
+
+            Glob.current_behaviour = 'bowing'
+            await preq.bow(ws, Glob.sextant)
             
         elif signal_hug(Glob.distance) and Glob.distance<2:
-            # if hugging and within distance
-            f = 0   ############################################
-            # print('hug')
-            # await hug(ws)
+
+            Glob.current_behaviour = 'hugging'
+            await preq.alight(ws, 255,100,100)
         
         elif signal_hug(Glob.distance)!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)==True:
-            # if not hugging and tickling
-            f = 0   ############################################
-            # Glob.current_behaviour = 'tickling'
-            # print('tickle')
-            # await tickle(ws)
+
+            Glob.current_behaviour = 'tickling'
+            await tickle(ws)
             
-        elif (signal_Waving() and math_bowing() and signal_hug(Glob.distance))!= True:     
-            # not waving or bowing or hugging
-            f = 0   ############################################
-            print('waiting')
-            await waiting(ws)
+        elif (signal_Waving() and math_bowing() and signal_hug(Glob.distance))!= True:            # more variety
 
+            interesting_actions = ['hand waving', 'pointing to something with finger','clapping', 
+                                   'put the palms together', 'rub two hands together', 'brushing teeth', 
+                                   'brushing hair', 'touch head (headache)', 'touch chest (stomachache/heart pain)', 
+                                   'touch neck (neckache)']
 
+            if Glob.actions in interesting_actions:
 
+                await preq.alight(ws, 130,240,20)
 
+            else:
+
+                Glob.current_behaviour = 'waiting'
+                print('waiting')
+                await preq.reset(ws) 
 
 
 ############################################################################################################
