@@ -199,11 +199,8 @@ async def wave(ws):     # test #
 
     wave_col = [[R0, G0, B0], [R1, G1, B1]]
 
-    p0 = random.uniform(0,1)
-    p1 = random.uniform(0,1)
-    p2 = random.uniform(0,1)
-
-    p = [p0, p1, p2]
+    p0 = [1,1,0.2]
+    p = random.shuffle(p0)
 
     await simul_inflate(ws, p)          
     await preq.flow(ws, 1, wave_col)
