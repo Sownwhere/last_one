@@ -152,9 +152,10 @@ async def hug(ws):                                                  ############
 
 async def tickle(ws):
 
-    p0 = random.uniform([0.4,1])
-    p1 = random.uniform([0.4,1])
-    p2 = random.uniform([0.4,1])          
+    p0 = random.uniform(0.4,1)
+    p1 = random.uniform(0,1)
+    p2 = random.uniform(0,1)
+    await simul_inflate(ws,[p0, p1, p2])          
     await alight_ends(ws, [255,255,255], [255,0,585])
     await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
 
@@ -174,7 +175,7 @@ async def waving(ws):
     await simul_inflate(ws, p)
     await asyncio.sleep(0.1)
 
-async def tickle(ws):
+async def tickle1(ws):
     # r = 0
     
     # g_min, g_max = 190, 230
@@ -368,7 +369,7 @@ async def yaught(ws):
     await asyncio.sleep(2)
     while True:
 
-        await hug(ws)
+        await tickle(ws)
 
 
 async def test():    # testing continuously
