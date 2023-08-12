@@ -295,7 +295,6 @@ async def bow(ws, sextant):
         #     print('6')
         #     await simul_inflate(ws, [1, 0, 1])
 
-        
 
 async def seek(ws, sextant):
 
