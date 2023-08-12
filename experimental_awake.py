@@ -295,10 +295,10 @@ async def bow(ws, sextant):
         #     print('6')
         #     await simul_inflate(ws, [1, 0, 1])
 
+async def follow(ws, sextant):
 
-async def seek(ws, sextant):
-
-    f = 0
+    while True:
+        f = 0
 
 ### ### STATE FUNCTION - OVERARCHING STRUCTURE ### ### =================================================
 
@@ -329,7 +329,7 @@ async def AWAKE(ws):
             (signal_hug(Glob.distance)!=True and math_bowing()!=True and 
              signal_tickle(Glob.distance_lhand,Glob.distance_rhand and signal_jumping!=True)!=True)):
             
-            await waving(ws)
+            await wave(ws)
             
         elif math_bowing():
 

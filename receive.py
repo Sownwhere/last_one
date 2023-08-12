@@ -9,6 +9,7 @@ def convert_to_move_hand(input_string):
     
     if input_string in actions_1:
         return 'move hand'
+    
     else:
         return input_string
 
@@ -33,18 +34,19 @@ async def receive_data(actions,zed_signal_attrs, lock1,lock2):
                 Glob.detected = zed_signal_attrs['detected']
           
         finally:
+
             lock2.release()
         
  
-
         lock1.acquire()
         try:
             if actions:
+
                 tmp = convert_to_move_hand(actions[0])
                 Glob.actions = tmp
                 
-            
-                print(tmp)
+                #print(tmp)
+
         finally:
             lock1.release()
             await asyncio.sleep(0.1)
