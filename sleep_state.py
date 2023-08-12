@@ -22,7 +22,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 
     async def sleeby():                         # inhale exhale cycle
 
-        volume = [0.7, 0.2]                     # chamber volume ceiling/floor
+        volume = [0.7, 0.3]                     # chamber volume ceiling/floor
         brightness = [1, 0.1]                   # light values ceiling/floor
 
         max_pressures = [0.9,0.8,1]
@@ -296,29 +296,29 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 ############################################################################################################
 ##############################################   TEST  #####################################################
 
-# async def recvpump(ws):
-#     while True:
-#         await ws.recv()
+async def recvpump(ws):
+    while True:
+        await ws.recv()
 
-# async def yaught(ws):
-#     while True:
-#         await SLEEPING(ws)
+async def yaught(ws):
+    while True:
+        await SLEEPING(ws)
 
-# async def test():    # testing continuously
+async def test():    # testing continuously
 
-#     async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
-#             while True:
-#                 tasks = [                                       
-#                 asyncio.ensure_future(yaught(ws)),                
-#                 asyncio.ensure_future(recvpump(ws))             
-#                 ]
-#                 await asyncio.wait(tasks)    
+    async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
+            while True:
+                tasks = [                                       
+                asyncio.ensure_future(yaught(ws)),                
+                asyncio.ensure_future(recvpump(ws))             
+                ]
+                await asyncio.wait(tasks)    
 
 
-# if __name__ == "__main__":
-#     logging.basicConfig(
-#         format="%(asctime)s %(message)s",
-#         level=logging.CRITICAL #.DEBUG,
-#     )
+if __name__ == "__main__":
+    logging.basicConfig(
+        format="%(asctime)s %(message)s",
+        level=logging.CRITICAL #.DEBUG,
+    )
 
-#     asyncio.run(test())              
+    asyncio.run(test())              
