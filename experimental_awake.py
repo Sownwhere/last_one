@@ -115,8 +115,7 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):                                                  ######################## 'TEST TEST TEST' ######################    
-    print("huggin")
+async def hug(ws):      #                                             
 
     if Glob.current_behaviour != 'hugging':              # start hug
 
@@ -131,7 +130,7 @@ async def hug(ws):                                                  ############
         p2 = random.uniform(0.4,0.7)
         await preq.simul_inflate(ws, [p0, p1, p2])
 
-        print('hug initialised')
+        # print('hug initialised')
 
     elif Glob.current_behaviour == 'hugging':           # hold hug
         
@@ -139,79 +138,89 @@ async def hug(ws):                                                  ############
         Glob.t = time.time() - Glob.start_time
 
         if Glob.t < Glob.patience:
-            print('wait')
+            # print('wait')
             await asyncio.sleep(0.1)
             pass
 
         elif Glob.t >= Glob.patience:
-
-            print('changing')
+            # print('changing')
             await preq.bloop(3, [255,0,255],[255,0,255], 0.05)
             await alight_ends(ws, Glob.l0, Glob.l1)
             await asyncio.sleep(0.05)
 
-async def tickle(ws):
+async def tickle(ws):   # test # 
+
+    if Glob.current_behaviour != 'tickle':
+        
+        Glob.current_behaviour = 'tickle'
+        Glob.start_time = time.time()
+        Glob.t = 0
+
+        Glob.duration = 1
+        await preq.alight_ends(ws, [255,255,255], [255,0,585])
+        await preq.bloop(0.9, [255,255,255],[255,0,910], 0.05)
+
+    elif Glob.current_behaviour == 'tickle':
+
+        Glob.current_behaviour = 'tickle'
+        Glob.t = time.time() - Glob.start_time
+
+    if Glob.t <= 0.9:
+
+        if Glob.t <= 0.1 or 0.3 < Glob.t <= 0.4 or 0.6 < Glob.t <= 0.7:
+            p = [0.3, 0.9, 0.3]
+
+        elif 0.1 < Glob.t <= 0.2 or 0.4 < Glob.t <= 0.6 or 0.7 < Glob.t <= 0.8:
+            p = [0.9, 0.3, 0.3]
+
+        elif 0.2 < Glob.t <= 0.3 or 0.5 < Glob.t <= 0.6 or 0.8 < Glob.t <= 0.9:
+            p = [0.3, 0.3, 0.9]
+        
+        await alight_ends(ws, Glob.l0, Glob.l1)
+        await simul_inflate(ws, p)
+        await asyncio.sleep(0.05)
+
+    elif Glob.t > 0.9:
+    
+        Glob.current_behaviour = 'None'
+        return
+    
+    return
+
+async def wave(ws):     # test #
+
+    R0 = random.uniform(0,255)
+    G0 = 255
+    B0 = random.uniform(0,255)
+
+    R1 = random.uniform(0,150)
+    G1 = random.uniform(200,255)
+    B1 = random.uniform(0,150)
+
+    wave_col = [[R0, G0, B0], [R1, G1, B1]]
 
     p0 = random.uniform(0.4,1)
     p1 = random.uniform(0,1)
     p2 = random.uniform(0,1)
-    await simul_inflate(ws,[p0, p1, p2])          
-    await alight_ends(ws, [255,255,255], [255,0,585])
-    await preq.flow(ws, 1, [[255,255,255],[255,0,910]])
 
-async def waving(ws):
-   
-    await simul_inflate(ws,[1,0.3,0.3])
-    await preq.alight()
-    await preq.flow(ws, 1, )
-    
-    p = [0.3, 0.9, 0.3]
-    await simul_inflate(ws, p)
-    await asyncio.sleep(0.1)
-    p = [0.9, 0.3, 0.3]
-    await simul_inflate(ws, p)
-    await asyncio.sleep(0.1)
-    p = [0.3, 0.3, 0.9]
-    await simul_inflate(ws, p)
-    await asyncio.sleep(0.1)
+    p = [p0, p1, p2]
 
-async def tickle1(ws):
-    # r = 0
-    
-    # g_min, g_max = 190, 230
-    # b_min, b_max = 0, 40
-    
-    # num_pixels = 256  # Number of pixels in the gradient
-    
-    # for i in range(10):
-    #     # Calculate the current position in the gradient
-    #     position = i / (num_pixels - 1)
-        
-    #     # Use sine functions to interpolate between R and G values
-    #     b = int(b_min + (b_max - b_min) * (math.sin(2 * math.pi * position) + 1) / 2)
-    #     g = int(g_min + (g_max - g_min) * (math.sin(2 * math.pi * position + math.pi) + 1) / 2)
-    #     await preq.alight_ends(ws,[r,g,b],[r,g-40,b])
-    await preq.alight_ends(ws,[0,255,0],[0,255,0])
+    await simul_inflate(ws, p)          
+    await preq.flow(ws, 1, wave_col)
 
-    p = [0.5, 1, 0.5]
-    await simul_inflate(ws, p)
-    await asyncio.sleep(0.1)
-    p = [1, 0.5, 0.5]
-    await simul_inflate(ws, p)
-    await asyncio.sleep(0.1)
-    p = [0.5, 0.5, 1]
-    await simul_inflate(ws, p)
-    await asyncio.sleep(0.1)
-        
 async def jumping(ws):
     print('jomp') 
     jomp_col = random.choice([1,2,3])
 
     await simul_inflate(ws,[1,1,1])
-    if jump_col == 1:
+    if jomp_col == 1:
         f = 0
 
-    await preq.alight
+    elif jomp_col == 2:
+        f = 0
+
+    elif jomp_col == 3:
+        f = 0
 
 # DIRECTED RESPONSES - responses based on relative position --------------------------------------------
 
@@ -315,28 +324,24 @@ async def AWAKE(ws):
 
         if signal_jumping()==True and signal_hug!=True:         
 
-            await preq.jumping(ws)
+            await jumping(ws)
         
         elif signal_Waving() and (Glob.distance < 2 and 
             (signal_hug(Glob.distance)!=True and math_bowing()!=True and 
              signal_tickle(Glob.distance_lhand,Glob.distance_rhand and signal_jumping!=True)!=True)):
             
-            Glob.current_behaviour = 'waving'
-            await preq.waving(ws)
+            await waving(ws)
             
         elif math_bowing():
 
-            Glob.current_behaviour = 'bowing'
-            await preq.bow(ws, Glob.sextant)
+            await bow(ws, Glob.sextant)
             
         elif signal_hug(Glob.distance) and Glob.distance<2:
 
-            Glob.current_behaviour = 'hugging'
             await preq.alight(ws, 255,100,100)
         
         elif signal_hug(Glob.distance)!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)==True:
 
-            Glob.current_behaviour = 'tickling'
             await tickle(ws)
             
         elif (signal_Waving() and math_bowing() and signal_hug(Glob.distance))!= True:            # more variety
@@ -370,7 +375,6 @@ async def yaught(ws):
     while True:
 
         await tickle(ws)
-
 
 async def test():    # testing continuously
 

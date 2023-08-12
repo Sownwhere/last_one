@@ -107,8 +107,10 @@ class Glob:
         
     # awaken
 
-    # waiting
+    # wave 
+    wave_col = [[0,0,0], [0,0,0]]
 
+    # waiting
 
     wait_colour = [[0,0,0],[0,0,0]]
     wait_pos = [0,0,0]
