@@ -112,7 +112,7 @@ async def flow(ws, flow_duration, target_lights):       # Uninterruptible; short
 # LIGHTS : bloop() over long period - interruptible
 
 async def bloop(bloop_start_time, bloop_duration, target_0, target_1):             # Interruptible. over long period 
-            # GIVE EXTERNAL START TIME  #####################################################################################################
+
     def start_new_bloop():
 
         Glob.bloop_start_t = time.time()
