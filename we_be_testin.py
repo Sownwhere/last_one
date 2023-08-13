@@ -116,21 +116,24 @@ async def directional_test(ws):
 
 
 async def dance(ws):
+
     while True:
-        p0 = random.uniform(0,1)
-        p1 = random.uniform(0,1)
-        p2 = random.uniform(0,1)
+
+        p0 = random.choice([0,1])
+        p1 = random.choice([0,1])
+        p2 = random.choice([0,1])
 
         r = random.uniform(0,255)
         g = random.uniform(0,255)
         b = random.uniform(0,255)
 
-        await preq.simul_inflate(ws, [p0, p1, p2])
-        await preq.alight(ws, r, g, b)
-        
-        await preq.simul_inflate(ws, [0,0,0])
-        await preq.alight(ws, r, g, b)
+        # await preq.simul_inflate(ws, [1, 1, 1])
+        # await preq.alight(ws, r, g, b)
+        # await asyncio.sleep(0.5)
 
+        await preq.simul_inflate(ws, [p1,p0,p2])
+        await preq.alight(ws, r, g, b)
+        await asyncio.sleep(1)
 
 
 
