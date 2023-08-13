@@ -125,9 +125,9 @@ async def hug(ws):      #
         Glob.patience = random.uniform(2,3)
 
         await alight_ends(ws, [255,255,255],[255,50,100])
-        p0 = random.uniform(0.4,0.7)
-        p1 = random.uniform(0.4,0.7)
-        p2 = random.uniform(0.4,0.7)
+        p0 = random.uniform(0.3,0.6)
+        p1 = random.uniform(0.3,0.6)
+        p2 = random.uniform(0.3,0.6)
         await preq.simul_inflate(ws, [p0, p1, p2])
 
         # print('hug initialised')
@@ -193,13 +193,13 @@ async def wave(ws):     # test #
     G0 = 255
     B0 = random.uniform(0,255)
 
-    R1 = random.uniform(0,150)
-    G1 = random.uniform(200,255)
-    B1 = random.uniform(0,150)
+    R1 = random.uniform(0,50)
+    G1 = 255
+    B1 = random.uniform(0,50)
 
     wave_col = [[R0, G0, B0], [R1, G1, B1]]
 
-    p0 = random.uniform(0.4,1)
+    p0 = random.uniform(0,1)
     p1 = random.uniform(0,1)
     p2 = random.uniform(0,1)
 
@@ -373,7 +373,7 @@ async def yaught(ws):
     await asyncio.sleep(2)
     while True:
 
-        await tickle(ws)
+        await wave(ws)
 
 async def test():    # testing continuously
 

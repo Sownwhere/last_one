@@ -115,6 +115,25 @@ async def directional_test(ws):
         await asyncio.sleep(1)
 
 
+async def dance(ws):
+    while True:
+        p0 = random.uniform(0,1)
+        p1 = random.uniform(0,1)
+        p2 = random.uniform(0,1)
+
+        r = random.uniform(0,255)
+        g = random.uniform(0,255)
+        b = random.uniform(0,255)
+
+        await preq.simul_inflate(ws, [p0, p1, p2])
+        await preq.alight(ws, r, g, b)
+        
+        await preq.simul_inflate(ws, [0,0,0])
+        await preq.alight(ws, r, g, b)
+
+
+
+
 
 # TEST FUNCTION
 
@@ -123,7 +142,7 @@ async def blarp_test():    # testing
     async with websockets.connect(f"ws://10.20.24.10:5555/ws", ping_interval=5, ping_timeout=5) as ws:
         while True: 
             tasks = [
-            asyncio.ensure_future(whew(ws)),                                
+            asyncio.ensure_future(dance(ws)),                                
             #asyncio.ensure_future(preq.simul_inflate(ws,[1,1,0])),                  # test chambers
             #asyncio.ensure_future(preq.alight_ends(ws, [0,0,0],[600,600,600])),         # test lights
             asyncio.ensure_future(recvpump(ws))              
