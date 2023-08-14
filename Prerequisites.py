@@ -130,8 +130,19 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
         
         print('BLOOP - started new loop')
 
-    if target_0 == Glob.bloop_target_0 and target_1 == Glob.bloop_target_1:
-        # if same target
+    if target_0 != Glob.bloop_target_0 or target_1 != Glob.bloop_target_1:          # differet target - different loop
+
+        start_new_bloop()
+        await asyncio.sleep(0.01)  
+
+    elif target_0 == Glob.bloop_target_0 and target_1 == Glob.bloop_target_1:       # same target 
+
+        # same target, restart now
+
+
+
+
+
 
         if bloop_start_ref != Glob.bloop_start_time:
             # start time is now
@@ -145,11 +156,10 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
             Glob.bloop_t = time.time() - Glob.bloop_start_time
             #print('continue existing loop')
 
-    elif target_0 != Glob.bloop_target_0 or target_1 != Glob.bloop_target_1:
-        # if different target
+    #################################################################################################
 
-        start_new_bloop()
-        await asyncio.sleep(0.01)
+
+    
 
     if Glob.bloop_t >= bloop_duration:
 
