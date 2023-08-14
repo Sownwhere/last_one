@@ -137,10 +137,10 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
 
     elif target_0 == Glob.bloop_target_0 and target_1 == Glob.bloop_target_1:       # same target 
 
-        # same target, restart now
+        # same target, starting now
 
 
-
+        # same target, same loop, started earlier
 
 
 
