@@ -33,7 +33,7 @@ class Glob:
     bloop_target_1 = [0,0,0]
     bloop_diff_0 = [0,0,0]
     bloop_diff_1 = [0,0,0]
-    bloop_start_t = 0.0
+    bloop_start_time = 0.0
     bloop_t = 0.0             # elapsed time
 
     # Shift

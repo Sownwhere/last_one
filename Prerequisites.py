@@ -111,11 +111,11 @@ async def flow(ws, flow_duration, target_lights):       # Uninterruptible; short
 
 # LIGHTS : bloop() over long period - interruptible
 
-async def bloop(bloop_start_time, bloop_duration, target_0, target_1):             # Interruptible. over long period 
+async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):             # Interruptible. over long period 
 
     def start_new_bloop():
 
-        Glob.bloop_start_t = time.time()
+        Glob.bloop_start_time = time.time()
         Glob.bloop_t = 0
 
         Glob.bloop_target_0 = target_0
@@ -133,7 +133,7 @@ async def bloop(bloop_start_time, bloop_duration, target_0, target_1):          
     if target_0 == Glob.bloop_target_0 and target_1 == Glob.bloop_target_1:
         # if same target
 
-        if time.time() == Glob.bloop_start_t:
+        if bloop_start_ref != Glob.bloop_start_time:
             # start time is now
 
             start_new_bloop()
@@ -142,7 +142,7 @@ async def bloop(bloop_start_time, bloop_duration, target_0, target_1):          
         else:
             # start time was earlier
 
-            Glob.bloop_t = time.time() - Glob.bloop_start_t
+            Glob.bloop_t = time.time() - Glob.bloop_start_time
             #print('continue existing loop')
 
     elif target_0 != Glob.bloop_target_0 or target_1 != Glob.bloop_target_1:
@@ -157,7 +157,7 @@ async def bloop(bloop_start_time, bloop_duration, target_0, target_1):          
         Glob.l0 = target_0
         Glob.l1 = target_1
 
-        Glob.bloop_start_t = 0.0
+        Glob.bloop_start_time = 0.0
         Glob.bloop_target_0 = [0,0,0]
         Glob.bloop_target_1 = [0,0,0]
 
