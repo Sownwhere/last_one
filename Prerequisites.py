@@ -113,6 +113,7 @@ async def flow(ws, flow_duration, target_lights):       # Uninterruptible; short
 
 async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):             # Interruptible. over long period 
 
+# WE AINT DONE HERE ##################################################################################################
     def start_new_bloop():
 
         Glob.bloop_start_time = time.time()
@@ -131,47 +132,32 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
         print('BLOOP - started new loop')
 
     if target_0 != Glob.bloop_target_0 or target_1 != Glob.bloop_target_1:          # differet target - different loop
-
+        print('1')
         start_new_bloop()
-        await asyncio.sleep(0.01)  
+        return
 
     elif target_0 == Glob.bloop_target_0 and target_1 == Glob.bloop_target_1:       # same target 
 
-        # same target, starting now
-
+        # same target, 
+        if round(Glob.bloop_start_time,2) != round(bloop_start_ref,2):
+            print('start t', round(Glob.bloop_start_time, 2), '       start ref', round(bloop_start_ref, 2))
+            start_new_bloop()
+            return
 
         # same target, same loop, started earlier
-
-        
-
-
-        if bloop_start_ref != Glob.bloop_start_time:
-            # start time is now
-
-            start_new_bloop()
-            await asyncio.sleep(0.01)
-
-        else:
-            # start time was earlier
+        elif round(Glob.bloop_start_time, 2) == round(bloop_start_ref, 2):       
 
             Glob.bloop_t = time.time() - Glob.bloop_start_time
-            #print('continue existing loop')
-
-    #################################################################################################
-
-
-    
 
     if Glob.bloop_t >= bloop_duration:
 
-        print('BLOOP - target reached, END')
         Glob.l0 = target_0
         Glob.l1 = target_1
 
         Glob.bloop_start_time = 0.0
         Glob.bloop_target_0 = [0,0,0]
         Glob.bloop_target_1 = [0,0,0]
-
+        print('BLOOP - target reached, END')
         return
     
     elif Glob.bloop_t < bloop_duration:
@@ -181,8 +167,9 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
             Glob.l0[i] = Glob.bloop_starting_0[i] + ((Glob.bloop_t/bloop_duration) * Glob.bloop_diff_0[i])
             Glob.l1[i] = Glob.bloop_starting_1[i] + ((Glob.bloop_t/bloop_duration) * Glob.bloop_diff_1[i])
 
-        # print('phase = ', Glob.bloop_t/bloop_duration)
-        # print('L0 = ', Glob.l0, ',   L1 = ', Glob.l1)
+        print('phase = ', Glob.bloop_t/bloop_duration)
+        print('starting 0' , Glob.bloop_starting_0, '                diff', Glob.bloop_diff_0)
+        print('L0 = ', Glob.l0, ',   L1 = ', Glob.l1)
 
         return
     
