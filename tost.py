@@ -8,13 +8,12 @@ from Glob import Glob
 
 
 
-async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):             # Interruptible. over long period 
+async def bloop(bloop_starttime, bloop_duration, target_0, target_1):        
 
+    Glob.bloop_start_time = bloop_starttime
+    bloop_end_time = bloop_starttime + bloop_duration
 
-    def start_new_bloop():
-
-        Glob.bloop_start_time = time.time()
-        Glob.bloop_t = 0
+    def start_new_bloop():              # record starting l values
 
         Glob.bloop_target_0 = target_0
         Glob.bloop_target_1 = target_1
@@ -27,6 +26,13 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
             Glob.bloop_diff_1[i] = target_1[i] - Glob.bloop_starting_1[i]
         
         print('BLOOP - started new loop')
+
+
+
+
+
+
+    
 
     if target_0 != Glob.bloop_target_0 or target_1 != Glob.bloop_target_1:          # differet target - different loop
         print('1')
