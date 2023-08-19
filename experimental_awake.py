@@ -98,7 +98,7 @@ async def waiting(ws):
 
     if Glob.t < Glob.patience:
 
-        await preq.bloop(Glob.patience, Glob.wait_colour[0], Glob.wait_colour[1])
+        await preq.bloop(0, Glob.patience, Glob.wait_colour[0], Glob.wait_colour[1])
         await preq.shift()
 
         f = 0       # do the waiting behaviour here
@@ -144,7 +144,7 @@ async def hug(ws):      #
 
         elif Glob.t >= Glob.patience:
             # print('changing')
-            await preq.bloop(3, [255,0,255],[255,0,255])
+            await preq.bloop(Glob.patience, 3, [255,0,255],[255,0,255])
             await alight_ends(ws, Glob.l0, Glob.l1)
             await asyncio.sleep(0.05)
 
@@ -158,7 +158,7 @@ async def tickle(ws):   # test #
 
         Glob.duration = 1
         await preq.alight_ends(ws, [255,255,255], [255,0,585])
-        await preq.bloop(0.9, [255,255,255],[255,0,910])
+        await preq.bloop(0, 0.9, [255,255,255],[255,0,910])
 
     elif Glob.current_behaviour == 'tickle':
 
