@@ -33,15 +33,13 @@ class Glob:
     bloop_target_1 = [0,0,0]
     bloop_diff_0 = [0,0,0]
     bloop_diff_1 = [0,0,0]
-    bloop_start_time = 0.0      ##############################
-    bloop_t = 0.0             # elapsed time################# get rid of eventually
+    bloop_t = 0.0             
 
     # Shift
 
     shift_starting_p = [0,0,0]
     shift_target = [0,0,0]
     shift_diff = [0,0,0]
-    shift_start_t = 0.0
     shift_t = 0.0
 
     # SkelCoord --------------------------------------------------------------------------------

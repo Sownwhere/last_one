@@ -111,17 +111,17 @@ async def flow(ws, flow_duration, target_lights):       # Uninterruptible; short
 
 # LIGHTS : bloop() over long period - interruptible
 
-async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):             # Interruptible. over long period 
+async def bloop(start_time, duration, target_0, target_1):      
 
-# WE AINT DONE HERE ##################################################################################################
-    def start_new_bloop():
+    bloop_start_time = start_time        # wrt Glob.t. meaning seconds after Glob.st
+    bloop_duration = duration - 0.05
+    bloop_end_time = bloop_start_time + bloop_duration
 
-        Glob.bloop_start_time = time.time()
-        Glob.bloop_t = 0
+    def start_new_bloop():              # record starting L values, calculate and record diff values
 
         Glob.bloop_target_0 = target_0
         Glob.bloop_target_1 = target_1
-
+        
         Glob.bloop_starting_0 = list(Glob.l0)
         Glob.bloop_starting_1 = list(Glob.l1)
 
@@ -129,58 +129,54 @@ async def bloop(bloop_start_ref, bloop_duration, target_0, target_1):           
             Glob.bloop_diff_0[i] = target_0[i] - Glob.bloop_starting_0[i]
             Glob.bloop_diff_1[i] = target_1[i] - Glob.bloop_starting_1[i]
         
-        print('BLOOP - started new loop')
+        # print('BLOOP - started new loop')
+        return
+
+    # print('Glob t ', Glob.t, '     bloop start t', bloop_start_time)
 
     if target_0 != Glob.bloop_target_0 or target_1 != Glob.bloop_target_1:          # differet target - different loop
-        print('1')
+
         start_new_bloop()
         return
 
-    elif target_0 == Glob.bloop_target_0 and target_1 == Glob.bloop_target_1:       # same target 
-
-        # same target, 
-        if round(Glob.bloop_start_time,2) != round(bloop_start_ref,2):
-            print('start t', round(Glob.bloop_start_time, 2), '       start ref', round(bloop_start_ref, 2))
-            start_new_bloop()
-            return
-
-        # same target, same loop, started earlier
-        elif round(Glob.bloop_start_time, 2) == round(bloop_start_ref, 2):       
-
-            Glob.bloop_t = time.time() - Glob.bloop_start_time
-
-    if Glob.bloop_t >= bloop_duration:
-
-        Glob.l0 = target_0
-        Glob.l1 = target_1
-
-        Glob.bloop_start_time = 0.0
-        Glob.bloop_target_0 = [0,0,0]
-        Glob.bloop_target_1 = [0,0,0]
-        print('BLOOP - target reached, END')
+    elif Glob.t <= bloop_start_time + 0.06:
+        
+        start_new_bloop()
         return
-    
-    elif Glob.bloop_t < bloop_duration:
+
+    elif bloop_start_time < Glob.t < bloop_end_time:
+
+        Glob.bloop_t = time.time() - Glob.start_time - bloop_start_time
 
         for i in range(3):
 
             Glob.l0[i] = Glob.bloop_starting_0[i] + ((Glob.bloop_t/bloop_duration) * Glob.bloop_diff_0[i])
             Glob.l1[i] = Glob.bloop_starting_1[i] + ((Glob.bloop_t/bloop_duration) * Glob.bloop_diff_1[i])
 
-        print('phase = ', Glob.bloop_t/bloop_duration)
-        print('starting 0' , Glob.bloop_starting_0, '                diff', Glob.bloop_diff_0)
-        print('L0 = ', Glob.l0, ',   L1 = ', Glob.l1)
+        # print('phase = ', (Glob.t - start_time)/bloop_duration)
+        # prontable0 = [round(L,2) for L in Glob.l0]
+        # prontable1 = [round(L,2) for L in Glob.l1]
+        # print('L0 = ', prontable0, ',   L1 = ', prontable1)
 
+        return
+
+    elif Glob.t >= bloop_end_time:
+
+        Glob.l0 = target_0                      # manual set to target
+        Glob.l1 = target_1
+
+        # print('BLOOP - target reached, END')
         return
     
 # MOTION : shift() over long period - interruptible
 
-async def shift(shift_duration, target_p):             # Interruptible. over long period 
+async def shift(start_time, duration, target_p):             # Interruptible. over long period 
+
+    shift_start_time = start_time
+    shift_duration = duration - 0.05
+    shift_end_time = shift_start_time + shift_duration
 
     def start_new_shift():
-
-        Glob.shift_start_t = time.time()
-        Glob.shift_t = 0
 
         Glob.shift_target = target_p
 
@@ -189,48 +185,37 @@ async def shift(shift_duration, target_p):             # Interruptible. over lon
         for i in range(3):
             Glob.shift_diff[i] = target_p[i] - Glob.shift_starting_p[i]
         
-        print('SHIFT - started new loop')
-        return
-
-    if target_p == Glob.shift_target:
-        # if same target
-
-        if time.time() == Glob.shift_start_t:
-            # start time is now
-
-            start_new_shift()
-            await asyncio.sleep(0.01)
-
-        else:
-            # start time was earlier
-
-            Glob.shift_t = time.time() - Glob.shift_start_t
-
-    elif target_p != Glob.shift_target:
-        # if different target
-
-        start_new_shift()
-        await asyncio.sleep(0.01)
-
-    if Glob.shift_t >= shift_duration:
-
-        print('SHIFT - target reached, END')
-        Glob.p = target_p
-
-        Glob.shift_start_t = 0.0
-        Glob.shift_target = [0,0,0]
-
+        # print('SHIFT - started new loop')
         return
     
-    elif Glob.shift_t < shift_duration:
+    if target_p != Glob.shift_target:
+
+        start_new_shift()
+        return
+
+    elif Glob.t <= shift_start_time + 0.06:
+
+        start_new_shift()
+        return
+    
+    elif shift_start_time < Glob.t < shift_end_time:
+
+        Glob.shift_t = time.time() - Glob.start_time - shift_start_time
 
         for i in range(3):
 
             Glob.p[i] = Glob.shift_starting_p[i] + ((Glob.shift_t/shift_duration) * Glob.shift_diff[i])
 
         # print('phase = ', Glob.shift_t/shift_duration)
-        # print('p = ', Glob.p)
+        # prontable = [round(P, 2) for P in Glob.p]
+        # print('p = ', prontable)
+        return
 
+    elif Glob.t >= shift_end_time:
+
+        Glob.p = target_p
+
+        # print('SHIFT - target reached, END')
         return
 
 # THEO'S MACHINE LEARNING EXPERIMENT ########################################################################################################################
