@@ -1,4 +1,4 @@
-# Works as desired
+# Works as desired. run this one more time
 
 from imports import *
 from Glob import Glob
@@ -51,12 +51,12 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
             Glob.B_period = random.uniform(0.1, 0.7)
 
             # print('initialise sleep')
+            return
 
         elif Glob.current_behaviour == 'sleebing':                   # within sleeb loop
 
             Glob.current_behaviour = 'sleebing' 
             Glob.t = time.time() - Glob.start_time
-            pass
 
         dream_breath_order = [Glob.R_period, Glob.G_period, Glob.B_period]
 
@@ -199,6 +199,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
                         pass
 
                 # print('dream initialised')
+                return
                 
         elif Glob.current_behaviour == 'dreaming':
 

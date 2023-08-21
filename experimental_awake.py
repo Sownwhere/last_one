@@ -115,14 +115,14 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):      #                                             
+async def hug(ws):      # ready to test #                                           
 
     if Glob.current_behaviour != 'hugging':              # start hug
 
         Glob.current_behaviour = 'hugging'
         Glob.start_time = time.time()
         Glob.t = 0 
-        Glob.patience = random.uniform(2,3)
+        Glob.patience = random.uniform(2,2.5)
 
         await alight_ends(ws, [255,255,255],[255,50,100])
         p0 = random.uniform(0.3,0.6)
@@ -131,6 +131,7 @@ async def hug(ws):      #
         await preq.simul_inflate(ws, [p0, p1, p2])
 
         # print('hug initialised')
+        return
 
     elif Glob.current_behaviour == 'hugging':           # hold hug
         
@@ -140,15 +141,16 @@ async def hug(ws):      #
         if Glob.t < Glob.patience:
             # print('wait')
             await asyncio.sleep(0.1)
-            pass
+            return
 
         elif Glob.t >= Glob.patience:
             # print('changing')
-            await preq.bloop(Glob.patience, 3, [255,0,255],[255,0,255])
+            await preq.bloop(Glob.patience, 2, [255,0,255],[255,0,255])
             await alight_ends(ws, Glob.l0, Glob.l1)
             await asyncio.sleep(0.05)
+            return
 
-async def tickle(ws):   # test # 
+async def tickle(ws):   # ready to test # 
 
     if Glob.current_behaviour != 'tickle':
         
@@ -179,6 +181,7 @@ async def tickle(ws):   # test #
         await alight_ends(ws, Glob.l0, Glob.l1)
         await simul_inflate(ws, p)
         await asyncio.sleep(0.05)
+        return
 
     elif Glob.t > 0.9:
     
