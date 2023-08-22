@@ -272,11 +272,11 @@ async def jumping(ws):
 
     await simul_inflate(ws,[1,1,1])
 
-    if jomp_col == 1:       # gren
+    if jomp_col == 1:       # RED
 
-        l0 = []
-        l1 = []
-        L = [[],[]]
+        l0 = [0,0,0]
+        l1 = [500,0,0]
+        L = [[0,0,0],[1000,0,0]]
 
     elif jomp_col == 2:
 
