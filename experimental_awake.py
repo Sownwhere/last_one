@@ -269,7 +269,7 @@ async def jumping(ws):
 
     print('jomp') 
     jomp_col = 1
-    # jomp_col = random.choice([1,2,3])
+    # jomp_col = random.choice([1,2,3])     #######################################
 
     await simul_inflate(ws,[1,1,1])
 
@@ -314,63 +314,16 @@ async def bow(ws, sextant):
             pass
     
         elif sextant == 1 or sextant == 2:
-            print('first third')
-            await preq.simul_inflate(ws, [1,1,0])
+            print(sextant)
+            await preq.simul_inflate(ws, [1,1,0.1])
 
         elif sextant == 3 or sextant == 4:
-            print('second third')
-            await preq.simul_inflate(ws, [0,1,1])
+            print(sextant)
+            await preq.simul_inflate(ws, [0.1,1,1])
 
         elif sextant == 5 or sextant == 6:
-            print('third third')
-            await preq.simul_inflate(ws, [1,0,1])
-
-            
-        # elif sextant == 1:                    # radially; 0 = reach towards chamber 0
-        #     print('1')
-        #     await simul_inflate(ws, [1, 0, 0])
-        #     #await asyncio.sleep(0.5)
-        #     await asyncio.sleep(1)
-        #     while Glob.signBowing==True :
-        #         await simul_inflate(ws, [0.1, 0.4, 0.4])
-        #         await asyncio.sleep(0.1)
-        #         math_bowing()
-
-        # elif sextant == 2:
-        #     print('2')
-        #     await simul_inflate(ws, [1, 1, 0.2])
-
-        # elif sextant == 3:
-        #     print('3')
-        #     await  simul_inflate(ws, [0, 1, 0])
-        #     await asyncio.sleep(1.2)
-        #     while Glob.signBowing == True :
-        #         await simul_inflate(ws, [0.6, 0.0, 0.7])
-        #         await asyncio.sleep(0.1)
-        #         math_bowing()
-
-        # elif sextant == 4:
-        #     print('4')
-        #     await simul_inflate(ws, [0.1, 0.8, 0.8])
-
-        # elif sextant == 5:
-        #     print('5')
-        #     await  simul_inflate(ws, [0, 0, 1])
-        #     await asyncio.sleep(1)
-        #     #await asyncio.sleep(0.5)
-        #     while Glob.signBowing == True:
-        #         await simul_inflate(ws, [0, 0, 1])
-        #         await asyncio.sleep(0.1)
-        #         math_bowing()
-
-        # elif sextant == 6:
-        #     print('6')
-        #     await simul_inflate(ws, [1, 0, 1])
-
-async def follow(ws, sextant):
-
-    while True:
-        f = 0
+            print(sextant)
+            await preq.simul_inflate(ws, [1,0.1,1])
 
 ### ### STATE FUNCTION - OVERARCHING STRUCTURE ### ### =================================================
 
@@ -442,7 +395,7 @@ async def recvpump(ws):
 
 async def yaught(ws):
     
-    await jumping(ws)
+    await bow(ws,1)
 
 async def test():    # testing continuously
 
