@@ -25,28 +25,24 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
 
     async def rouse(ws):  
 
-
         one = [[0,0,0],[0,0,0]]
         two = [[0,0,0],[0,0,0]]
         three = [[0,0,0],[0,0,0]]
 
         if wake_col == 1:       # blu           
-            one = [[255,255,255],[150,150,255]]   
-            two = [[255,255,255],[150,150,255]]  
-            three = [[0,255,255],[0,0,255]]
+            one = [[0,0,255],[0,0,50]]   
+            two = [[0,0,400],[0,0,100]]  
+            three = [[0,0,600],[0,0,255]]
 
         elif wake_col == 2:     # green         
-            one = [[255,255,255],[150,150,255]]   
-            two = [[255,255,255],[150,150,255]]  
-            three = [[0,255,255],[0,0,255]]
+            one = [[0,255,0],[0,50,0]]   
+            two = [[0,400,0],[0,100,0]]  
+            three = [[0,0,600],[0,0,255]]
 
         elif wake_col == 3:     # yellow        
-            one = [[255,255,255],[150,150,255]]   
-            two = [[255,255,255],[150,150,255]]  
-            three = [[0,255,255],[0,0,255]]
-            
-        await preq.simul_inflate(ws, [0.7,0.7,0.7])   
-        await preq.flow(ws, 0.5, wake_colour)   
+            one = [[100,255,0],[25,50,100]]   
+            two = [[255,400,0],[50,100,0]]  
+            three = [[450,600,0],[150,255,0]] 
 
         await preq.simul_inflate(0.3,0.3,0.3)
         await preq.flow(ws, 0.5, one)
