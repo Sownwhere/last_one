@@ -22,6 +22,7 @@ async def recvpump(ws):
     while True:
         await ws.recv()  
 
+
 async def up_bloop(ws):                         # blue shift upwards continuous loop
     sta = 585
     fin = 910                                                 
@@ -32,6 +33,7 @@ async def up_bloop(ws):                         # blue shift upwards continuous 
         await flow(ws, 1, [[255,255,255],[fin,fin,255]])
         await alight_ends(ws, [255,255,255], [sta, sta, 255])
 
+
 async def whee(ws):                             # values finder for testing
     sta = 585
     fin = 910                                                 
@@ -40,6 +42,7 @@ async def whee(ws):                             # values finder for testing
         await alight_ends(ws,[0,0,0],[20*i,0,0])
         print(i, '       ', i*20)
         await asyncio.sleep(0.3)
+
 
 async def whoo(ws):                                             # the yellow green one with working normalisation
     await preq.full_reset(ws)
@@ -53,6 +56,7 @@ async def whoo(ws):                                             # the yellow gre
     await asyncio.sleep(2)
     await preq.alight_ends(ws,[145,100,0],[145,100,0])
     print('end')
+
 
 async def whew(ws):                                             # demo vid, working, dont toucc
     await preq.full_reset(ws)
@@ -80,6 +84,7 @@ async def whew(ws):                                             # demo vid, work
     await alight_ends(ws, [255,255,255],[965,0,965])
     await preq.flow(ws, 4, [[0,0,0],[255,255,255]])
     await simul_inflate(ws, [1,1,1])
+
 ###################################################################
 
 

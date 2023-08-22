@@ -115,7 +115,7 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):      # ready to test #                                           
+async def hug(ws):      # ready to test # validate
 
     if Glob.current_behaviour != 'hugging':              # start hug
 
@@ -150,7 +150,7 @@ async def hug(ws):      # ready to test #
             await asyncio.sleep(0.05)
             return
 
-async def tickle(ws):   # ready to test # 
+async def tickle(ws):   # ready to test # the bloop isnt working
 
     if Glob.current_behaviour != 'tickle':
         
@@ -190,7 +190,7 @@ async def tickle(ws):   # ready to test #
     
     return
 
-async def wave(ws):     # test #
+async def wave(ws):     # ready to test # sort the damn motion thing
 
     R0 = random.uniform(0,255)
     G0 = 255
@@ -207,20 +207,35 @@ async def wave(ws):     # test #
 
     await simul_inflate(ws, p)          
     await preq.flow(ws, 1, wave_col)
+    await preq.reset(ws)
 
 async def jumping(ws):
+
     print('jomp') 
     jomp_col = random.choice([1,2,3])
 
     await simul_inflate(ws,[1,1,1])
-    if jomp_col == 1:
-        f = 0
+
+    if jomp_col == 1:       # gren
+
+        l0 = []
+        l1 = []
+        L = [[],[]]
 
     elif jomp_col == 2:
-        f = 0
+
+        l0 = []
+        l1 = []
+        L = [[],[]]
 
     elif jomp_col == 3:
-        f = 0
+
+        l0 = []
+        l1 = []
+        L = [[],[]]
+
+    await preq.alight_ends(ws, l0 ,l1)
+    await preq.flow(ws, 1, L)
 
 # DIRECTED RESPONSES - responses based on relative position --------------------------------------------
 
