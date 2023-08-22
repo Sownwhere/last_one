@@ -15,52 +15,89 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
 
     Glob.current_behaviour = 'awakening...' 
 
-    wake_type = random.choice([1,2,3,4,5])  
+    wake_type = random.choices([1,2,3,4], [0.3,0.3,0.3,1])  
     wake_col = random.choice([1,2,3])       
-    wake_colour = [[0,0,0],[0,0,0]]         
 
-    if wake_col == 1:       # blu           
-        wake_colour = [[255,255,255],[150,150,255]]     
-
-    elif wake_col == 2:     # green         
-        wake_colour = [[255,255,255],[100,255,200]]     
-
-    elif wake_col == 3:     # yellow        
-        wake_colour = [[255,255,255],[200,255,100]]     
-
+    # wake_type = 1     ######################### testing
+    # wake_col = 1      ######################### testing
     # print(wake_type)                      
     # print(wake_colour)                      
 
-    async def rouse():  
-        await preq.simul_inflate(ws, [1,1,1])   
-        await preq.alight_ends(ws, [255,255,255],[0,0,0])
+    async def rouse(ws):  
+
+
+        one = [[0,0,0],[0,0,0]]
+        two = [[0,0,0],[0,0,0]]
+        three = [[0,0,0],[0,0,0]]
+
+        if wake_col == 1:       # blu           
+            one = [[255,255,255],[150,150,255]]   
+            two = [[255,255,255],[150,150,255]]  
+            three = [[0,255,255],[0,0,255]]
+
+        elif wake_col == 2:     # green         
+            one = [[255,255,255],[150,150,255]]   
+            two = [[255,255,255],[150,150,255]]  
+            three = [[0,255,255],[0,0,255]]
+
+        elif wake_col == 3:     # yellow        
+            one = [[255,255,255],[150,150,255]]   
+            two = [[255,255,255],[150,150,255]]  
+            three = [[0,255,255],[0,0,255]]
+            
+        await preq.simul_inflate(ws, [0.7,0.7,0.7])   
         await preq.flow(ws, 0.5, wake_colour)   
 
-    async def greet():                         
-        await asyncio.sleep()
-        await preq.alight_ends(ws, [])
+        await preq.simul_inflate(0.3,0.3,0.3)
+        await preq.flow(ws, 0.5, one)
 
-    async def bloom():
-        print('bloom')
+        await preq.simul_inflate(ws, [1,1,1])
+        await preq.flow(ws, 0.5, two)
+        await preq.flow(ws, 1, [[0,0,0],[0,0,0]])
 
-    async def bloom(ws):                 # 2 ~# bruh     # colour change one atm
+        await preq.simul_inflate(ws, [1,1,1])
+        await preq.flow(ws, 0.5, three)
+
+    async def greet(ws):                  # ready to test #
+        await preq.reset(ws)
+        await preq.flow(ws, 0.5, [[500,600,0], [200,200,200]])                    
+        await preq.simul_inflate(ws, [1,1,0.2])
+        await preq.flow(ws, 1, [[255, 50, 255], [255,50, 255]])
+        await asyncio.sleep(0.5)
+
+    async def bloom(ws):                  # ready to test #
         print('bloom')
-        downtime = 0.5
-        down = [[0,0,0], [0,0,0]]
-        await preq.flow(ws, downtime, down)
+        await preq.simul_inflate(ws, [1,1,1])
+        if wake_col == 1:   
+            await preq.flow(ws, 0.7, [[100,100,600],[0,0,0]])
+            await preq.flow(ws, 0.3, [[100,100,600],[0,255,100]])
+        elif wake_col == 2:   
+            await preq.flow(ws, 0.7, [[100,600,100],[0,0,0]])
+            await preq.flow(ws, 0.3, [[100,600,100],[0,255,0]])
+        elif wake_col == 3:   
+            await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
+            await preq.flow(ws, 0.3, [[600,600,100],[255,255,0]])
+
+    async def flair(ws):                # old color change - stable
+        print('flair')
+        await alight(ws, 0,0,0)
+        await preq.simul_inflate(ws, [1,1,1])
         uptime = 1.5
         up = [[30,255,30], [30,255,730]]
         await preq.flow(ws, uptime, up)
-        await preq.simul_inflate(ws, [1,1,1])
 
     if wake_type == 1:
-        pass
+        await rouse(ws)
 
-    elif wake_type == 2:            #########################################
-        pass
+    elif wake_type == 2:          
+        await greet(ws)
 
-    elif wake_type == 3:
-        pass
+    elif wake_type == 3: 
+        await bloom(ws)
+
+    elif wake_type == 4:
+        await flair(ws)
+    
 
     Glob.current_state = 'AWAKE'
 
