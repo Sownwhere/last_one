@@ -11,6 +11,8 @@ from decisions import *
 
 async def awaken(ws):             # rouse from sleep. Uninterruptible until complete
 
+    #################################################### make this two types; soft blink and yoink from top
+
     Glob.current_behaviour = 'awakening...' 
 
     wake_type = random.choice([1,2,3,4,5])  
