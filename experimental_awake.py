@@ -23,7 +23,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
     # print(wake_colour)   
     print('1')    
 
-    async def rouse(ws):  
+    async def rouse(ws):                  # sort colours. top bot mix does not work
 
         print('start')
 
@@ -81,13 +81,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
             await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
             await preq.flow(ws, 0.3, [[600,600,100],[255,255,0]])
 
-    async def flair(ws):                # old color change - stable
-        print('flair')
-        await alight(ws, 0,0,0)
-        await preq.simul_inflate(ws, [1,1,1])
-        uptime = 1.5
-        up = [[30,255,30], [30,255,730]]
-        await preq.flow(ws, uptime, up)
+
 
     if wake_type == 1:
         print('waketype1')
@@ -265,7 +259,7 @@ async def wave(ws):     # good
     await preq.simul_inflate(ws, [1,0,1])          
     await preq.flow(ws, 1, wave_col)
 
-async def jumping(ws):
+async def jumping(ws):  # sort colours
 
     print('jomp') 
     jomp_col = 1
@@ -339,19 +333,19 @@ async def AWAKE(ws):
 
         Glob.current_state == 'AWAKE'
 
-    elif Glob.current_state == 'AWAKE':    
+    elif Glob.current_state == 'AWAKE':                     # mcfking redo the logic. all of it. we are tearing all of this up FROM THE GROUND
         
         print('jumping is', signal_jumping())
         print('waving is', signal_Waving())
         print('bowing is', math_bowing())
         print('hugging is',signal_hug(Glob.distance))
 
-        if signal_jumping()==True and signal_hug!=True:         
+        if signal_jumping() == True and signal_hug!=True:         
 
             await jumping(ws)
         
-        elif signal_Waving() and (Glob.distance < 2 and 
-            (signal_hug(Glob.distance)!=True and math_bowing()!=True and 
+        elif signal_Waving() and (Glob.distance < 2 and (signal_hug(Glob.distance) != True 
+             and math_bowing()!=True and 
              signal_tickle(Glob.distance_lhand,Glob.distance_rhand and signal_jumping!=True)!=True)):
             
             await wave(ws)
@@ -415,3 +409,13 @@ if __name__ == "__main__":
     )
 
     asyncio.run(test())     
+
+
+
+async def flair(ws):                # the og color glitch. keeping it here for sentimental reasons
+    print('flair')
+    await alight(ws, 0,0,0)
+    await preq.simul_inflate(ws, [1,1,1])
+    uptime = 1.5
+    up = [[30,255,30], [30,255,730]]
+    await preq.flow(ws, uptime, up)
