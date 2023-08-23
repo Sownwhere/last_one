@@ -268,15 +268,16 @@ async def wave(ws):     # good
 async def jumping(ws):
 
     print('jomp') 
-    jomp_col = random.choice([1,2,3])
+    jomp_col = 1
+    # jomp_col = random.choice([1,2,3])
 
     await simul_inflate(ws,[1,1,1])
 
     if jomp_col == 1:       # RED
 
         l0 = [0,0,0]
-        l1 = [500,0,0]
-        L = [[0,0,0],[1000,0,0]]
+        l1 = [255,585,255]
+        L = [[0,0,0],[255,910,255]]
 
     elif jomp_col == 2:
 
@@ -291,7 +292,7 @@ async def jumping(ws):
         L = [[],[]]
 
     await preq.alight_ends(ws, l0 ,l1)
-    await preq.flow(ws, 1, L)
+    await preq.flow(ws, 0.5, L)
 
 # DIRECTED RESPONSES - responses based on relative position --------------------------------------------
 
@@ -441,7 +442,7 @@ async def recvpump(ws):
 
 async def yaught(ws):
     
-    await wave(ws)
+    await jumping(ws)
 
 async def test():    # testing continuously
 
