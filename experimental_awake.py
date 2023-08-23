@@ -10,20 +10,22 @@ from decisions import *
 # AWAKEN - randomly choose wake up action --------------------------------------------------------------
 
 async def awaken(ws):             # rouse from sleep. Uninterruptible until complete
-
     #################################################### make this two types; soft blink and yoink from top
 
     Glob.current_behaviour = 'awakening...' 
 
-    wake_type = random.choices([1,2,3,4], [0.3,0.3,0.3,1])  
-    wake_col = random.choice([1,2,3])       
+    # wake_type = random.choices([1,2,3,4], [0.3,0.3,0.3,1])  
+    # wake_col = random.choice([1,2,3])       
 
-    # wake_type = 1     ######################### testing
-    # wake_col = 1      ######################### testing
+    wake_type = 4     ######################### testing
+    wake_col = 2      ######################### testing
     # print(wake_type)                      
-    # print(wake_colour)                      
+    # print(wake_colour)   
+    print('1')    
 
     async def rouse(ws):  
+
+        print('start')
 
         one = [[0,0,0],[0,0,0]]
         two = [[0,0,0],[0,0,0]]
@@ -44,32 +46,37 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
             two = [[255,400,0],[50,100,0]]  
             three = [[450,600,0],[150,255,0]] 
 
-        await preq.simul_inflate(0.3,0.3,0.3)
+        print('boosted')
+
+        await preq.simul_inflate(ws, [0.3,0.3,0.3])
         await preq.flow(ws, 0.5, one)
+        print('a')
 
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, two)
+        print('b')
         await preq.flow(ws, 1, [[0,0,0],[0,0,0]])
+        print('c')
 
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, three)
 
-    async def greet(ws):                  # ready to test #
+    async def greet(ws):                  # ready to test #    NOPE
         await preq.reset(ws)
         await preq.flow(ws, 0.5, [[500,600,0], [200,200,200]])                    
-        await preq.simul_inflate(ws, [1,1,0.2])
+        await preq.simul_inflate(ws, [1,0.5,0.2])
         await preq.flow(ws, 1, [[255, 50, 255], [255,50, 255]])
         await asyncio.sleep(0.5)
 
-    async def bloom(ws):                  # ready to test #
+    async def bloom(ws):                  # ready to test #   yup
         print('bloom')
         await preq.simul_inflate(ws, [1,1,1])
         if wake_col == 1:   
             await preq.flow(ws, 0.7, [[100,100,600],[0,0,0]])
-            await preq.flow(ws, 0.3, [[100,100,600],[0,255,100]])
+            await preq.flow(ws, 0.3, [[100,100,600],[0,0,0]])
         elif wake_col == 2:   
             await preq.flow(ws, 0.7, [[100,600,100],[0,0,0]])
-            await preq.flow(ws, 0.3, [[100,600,100],[0,255,0]])
+            await preq.flow(ws, 0.3, [[50, 255, 50],[50,255,50]])           # example. fix others
         elif wake_col == 3:   
             await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
             await preq.flow(ws, 0.3, [[600,600,100],[255,255,0]])
@@ -83,6 +90,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
         await preq.flow(ws, uptime, up)
 
     if wake_type == 1:
+        print('waketype1')
         await rouse(ws)
 
     elif wake_type == 2:          
@@ -150,7 +158,7 @@ async def waiting(ws):
         
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
-async def hug(ws):      # ready to test # validate
+async def hug(ws):      # good
 
     if Glob.current_behaviour != 'hugging':              # start hug
 
@@ -185,7 +193,7 @@ async def hug(ws):      # ready to test # validate
             await asyncio.sleep(0.05)
             return
 
-async def tickle(ws):   # ready to test # the bloop isnt working
+async def tickle(ws):   # good
 
     if Glob.current_behaviour != 'tickle':
         
@@ -195,7 +203,6 @@ async def tickle(ws):   # ready to test # the bloop isnt working
 
         Glob.duration = 1
         await preq.alight_ends(ws, [255,255,255], [255,0,585])
-        await preq.bloop(0, 0.9, [255,255,255],[255,0,910])
 
     elif Glob.current_behaviour == 'tickle':
 
@@ -203,6 +210,8 @@ async def tickle(ws):   # ready to test # the bloop isnt working
         Glob.t = time.time() - Glob.start_time
 
     if Glob.t <= 0.9:
+
+        await preq.bloop(0, 0.9, [255,255,255],[255,0,910])
 
         if Glob.t <= 0.1 or 0.3 < Glob.t <= 0.4 or 0.6 < Glob.t <= 0.7:
             p = [0.3, 0.9, 0.3]
@@ -225,7 +234,7 @@ async def tickle(ws):   # ready to test # the bloop isnt working
     
     return
 
-async def wave(ws):     # ready to test # sort the damn motion thing
+async def wave(ws):     # good
 
     R0 = random.uniform(0,255)
     G0 = 255
@@ -237,12 +246,24 @@ async def wave(ws):     # ready to test # sort the damn motion thing
 
     wave_col = [[R0, G0, B0], [R1, G1, B1]]
 
-    p0 = [1,1,0.2]
-    p = random.shuffle(p0)
+    r0 = random.uniform(0,255)
+    g0 = 255
+    b0 = random.uniform(0,255)
 
-    await simul_inflate(ws, p)          
+    r1 = random.uniform(0,50)
+    g1 = 255
+    b1 = random.uniform(0,50)
+
+    wave_col2 = [[r0, g0, b0], [r1, g1, b1]]
+
+    p0 = [1,1,0.2]
+    p = random.sample(p0, len(p0))
+    print(p)
+
+    await preq.simul_inflate(ws, [0.4,1,0.4])
+    await preq.flow(ws, 1, wave_col2)
+    await preq.simul_inflate(ws, [1,0,1])          
     await preq.flow(ws, 1, wave_col)
-    await preq.reset(ws)
 
 async def jumping(ws):
 
@@ -419,11 +440,8 @@ async def recvpump(ws):
         await ws.recv()
 
 async def yaught(ws):
-    await preq.full_reset(ws)
-    await asyncio.sleep(2)
-    while True:
-
-        await wave(ws)
+    
+    await wave(ws)
 
 async def test():    # testing continuously
 
