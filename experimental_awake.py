@@ -1,5 +1,4 @@
 ###  i hate myself. lets go
-# hug works
 
 from imports import *
 from Glob import Glob
@@ -10,22 +9,18 @@ from decisions import *
 # AWAKEN - randomly choose wake up action --------------------------------------------------------------
 
 async def awaken(ws):             # rouse from sleep. Uninterruptible until complete
-    #################################################### make this two types; soft blink and yoink from top
 
     Glob.current_behaviour = 'awakening...' 
 
-    # wake_type = random.choices([1,2,3,4], [0.3,0.3,0.3,1])  
+    # wake_type = random.choices([1,2,3], [0.4,0.4,0.2])  
     # wake_col = random.choice([1,2,3])       
 
     wake_type = 4     ######################### testing
     wake_col = 2      ######################### testing
     # print(wake_type)                      
     # print(wake_colour)   
-    print('1')    
 
-    async def rouse(ws):                  # sort colours. top bot mix does not work
-
-        print('start')
+    async def rouse(ws):                  # ready to test #
 
         one = [[0,0,0],[0,0,0]]
         two = [[0,0,0],[0,0,0]]
@@ -46,29 +41,17 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
             two = [[255,400,0],[50,100,0]]  
             three = [[450,600,0],[150,255,0]] 
 
-        print('boosted')
-
         await preq.simul_inflate(ws, [0.3,0.3,0.3])
         await preq.flow(ws, 0.5, one)
-        print('a')
 
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, two)
-        print('b')
         await preq.flow(ws, 1, [[0,0,0],[0,0,0]])
-        print('c')
 
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, three)
 
-    async def greet(ws):                  # ready to test #    NOPE
-        await preq.reset(ws)
-        await preq.flow(ws, 0.5, [[500,600,0], [200,200,200]])                    
-        await preq.simul_inflate(ws, [1,0.5,0.2])
-        await preq.flow(ws, 1, [[255, 50, 255], [255,50, 255]])
-        await asyncio.sleep(0.5)
-
-    async def bloom(ws):                  # ready to test #   yup
+    async def bloom(ws):                  # good - test all cols #
         print('bloom')
         await preq.simul_inflate(ws, [1,1,1])
         if wake_col == 1:   
@@ -76,32 +59,33 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
             await preq.flow(ws, 0.3, [[100,100,600],[0,0,0]])
         elif wake_col == 2:   
             await preq.flow(ws, 0.7, [[100,600,100],[0,0,0]])
-            await preq.flow(ws, 0.3, [[50, 255, 50],[50,255,50]])           # example. fix others
+            await preq.flow(ws, 0.3, [[50, 255, 50],[50,255,50]])           
         elif wake_col == 3:   
             await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
             await preq.flow(ws, 0.3, [[600,600,100],[255,255,0]])
 
-
+    async def flair(ws):                  # runthru with stabilise #
+        print('flair')
+        await alight(ws, 0,0,0)
+        await preq.simul_inflate(ws, [1,1,1])
+        uptime = 1.5
+        up = [[30,255,30], [30,255,730]]
+        await preq.flow(ws, uptime, up)
 
     if wake_type == 1:
-        print('waketype1')
         await rouse(ws)
 
     elif wake_type == 2:          
-        await greet(ws)
-
-    elif wake_type == 3: 
         await bloom(ws)
 
-    elif wake_type == 4:
+    elif wake_type == 3:
         await flair(ws)
-    
 
-    Glob.current_state = 'AWAKE'
+    Glob.current_state = 'AWAKE' 
 
 # WAITING - no stimuli detected, waiting state with random motions -------------------------------------
 
-async def waiting(ws):
+async def waiting(ws):      # test contingent on bow()
     
     if Glob.current_behaviour != 'waiting':
 
@@ -110,23 +94,24 @@ async def waiting(ws):
         Glob.t = 0
 
         Glob.patience = random.uniform(3,5)     # how long until seeking a reaction
-        Glob.duration = random.uniform ()
-        Glob.initiative = random.choices([0,1], [2,1])
 
-        print('patience', Glob.patience, 'initiative', Glob.initiative)
+        R0 = random.uniform(100,255)
+        B0 = random.uniform(100,255)
+        R1 = random.uniform(100,255)
+        B1 = random.uniform(100,255)
 
-        R0 = random.uniform(0,255)
-        G0 = random.uniform(0,255)
-        B0 = random.uniform(0,255)
+        Glob.wait_colour = [[R0, 0, B0],[R1, 0, B1]]
 
-        R1 = random.uniform(0,255)
-        G1 = random.uniform(0,255)
-        B1 = random.uniform(0,255)
+        p1 = random.uniform(0.7,1)
+        p2 = random.uniform(0.5,1)
+        p3 = random.uniform(0.7,1)
 
-        Glob.wait_colour = [[R0, G0, B0],[R1, G1, B1]]
-        Glob.wait_pos = 0
+        Glob.wait_pos= [p1, p2, p3]
+
+        await preq.flow(ws, 1, [[255,0,255],[255,0,255]])
 
         print('initialise wait')
+        return
 
     elif Glob.current_behaviour == 'waiting':
 
@@ -135,21 +120,18 @@ async def waiting(ws):
 
     if Glob.t < Glob.patience:
 
+        await preq.shift(0, Glob.patience, Glob.wait_pos)
         await preq.bloop(0, Glob.patience, Glob.wait_colour[0], Glob.wait_colour[1])
-        await preq.shift()
 
-        f = 0       # do the waiting behaviour here
+        await preq.simul_inflate(ws, Glob.p)
+        await preq.alight_ends(ws, Glob.l0, Glob.l1)
+        await asyncio.sleep(0.05)
 
-    elif Glob.t >= Glob.patience:       # greet 
+    elif Glob.t >= Glob.patience:
 
-        if Glob.initiative == 1:
+        sextant = Glob.sextant
+        await bow(ws, sextant)
 
-            f = 0
-
-        elif Glob.initiative == 0:
-        
-            f = 0                   # reset
-        
 # UNDIRECTED RESPONSES - responses without direction ---------------------------------------------------
 
 async def hug(ws):      # good
@@ -259,40 +241,37 @@ async def wave(ws):     # good
     await preq.simul_inflate(ws, [1,0,1])          
     await preq.flow(ws, 1, wave_col)
 
-async def jumping(ws):  # sort colours
+async def jumping(ws):  # test colours and cutoffs #
 
     print('jomp') 
     jomp_col = 1
-    # jomp_col = random.choice([1,2,3])     #######################################
+    # jomp_col = random.choice([1,2])     #######################################
 
     await simul_inflate(ws,[1,1,1])
 
-    if jomp_col == 1:       # RED
+    sta = 500
+    fin = 800
 
-        l0 = [0,0,0]
-        l1 = [255,585,255]
-        L = [[0,0,0],[255,910,255]]
+    if jomp_col == 1:       # BLUE
 
-    elif jomp_col == 2:
+        l0 = [255,255,255]
+        l1 = [sta,sta,255]
+        L = [l0,[fin,fin,255]]
 
-        l0 = []
-        l1 = []
-        L = [[],[]]
+    elif jomp_col == 2:     # GREEN
 
-    elif jomp_col == 3:
-
-        l0 = []
-        l1 = []
-        L = [[],[]]
+        l0 = [255,100,0]
+        l1 = [sta,100,0]
+        L = [[255,100,0],[fin,100,0]]
 
     await preq.alight_ends(ws, l0 ,l1)
     await preq.flow(ws, 0.5, L)
 
 # DIRECTED RESPONSES - responses based on relative position --------------------------------------------
 
-async def bow(ws, sextant):
+async def bow(ws, sextant):         # check the 0 problem with valve #
         
-    await alight_ends(ws,[255,0,255],[255,0,255])
+    await alight_ends(ws,[50,0,255],[50,0,255])
 
     if sextant == 0:
         print('0')
@@ -408,10 +387,3 @@ if __name__ == "__main__":
 
 
 
-async def flair(ws):                # the og color glitch. keeping it here for sentimental reasons
-    print('flair')
-    await alight(ws, 0,0,0)
-    await preq.simul_inflate(ws, [1,1,1])
-    uptime = 1.5
-    up = [[30,255,30], [30,255,730]]
-    await preq.flow(ws, uptime, up)
