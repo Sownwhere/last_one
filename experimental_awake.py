@@ -305,44 +305,33 @@ async def AWAKE(ws):
         print('bowing is', math_bowing())
         print('hugging is',signal_hug(Glob.distance))
 
-        if signal_jumping() == True and signal_hug!=True:         
+        wave_actions = ['hand waving']
+        tickle_actions = ['pointing to something with finger']
+        bow_actions = ['clapping', 'put the palms together', 'rub two hands together']
+
+        if signal_hug(Glob.distance):
+
+            await hug(ws)
+
+        elif (signal_hug(Glob.distance) != True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand) == True) or Glob.actions in tickle_actions:
+
+            await tickle(ws)
+        
+        elif signal_jumping() == True and (signal_hug(Glob.distance) and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)) != True:         
 
             await jumping(ws)
-        
-        elif signal_Waving() and (Glob.distance < 2 and (signal_hug(Glob.distance) != True 
-             and math_bowing()!=True and 
-             signal_tickle(Glob.distance_lhand,Glob.distance_rhand and signal_jumping!=True)!=True)):
-            
+
+        elif (signal_Waving() == True and (signal_jumping() and signal_hug(Glob.distance) and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)) != True) or Glob.actions in wave_actions:         
+
             await wave(ws)
             
-        elif math_bowing():
+        elif math_bowing(ws) or Glob.actions in bow_actions:
 
             await bow(ws, Glob.sextant)
             
-        elif signal_hug(Glob.distance) and Glob.distance<2:
+        else:
 
-            await hug() 
-        
-        elif signal_hug(Glob.distance)!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)==True:
-
-            await tickle(ws)
-            
-        elif (signal_Waving() and math_bowing() and signal_hug(Glob.distance))!= True:            # more variety
-
-            interesting_actions = ['hand waving', 'pointing to something with finger','clapping', 
-                                   'put the palms together', 'rub two hands together', 'brushing teeth', 
-                                   'brushing hair', 'touch head (headache)', 'touch chest (stomachache/heart pain)', 
-                                   'touch neck (neckache)']
-
-            if Glob.actions in interesting_actions:
-
-                await preq.alight(ws, 130,240,20)
-
-            else:
-
-                Glob.current_behaviour = 'waiting'
-                print('waiting')
-                await preq.reset(ws) 
+            await waiting(ws)
 
 
 ############################################################################################################
