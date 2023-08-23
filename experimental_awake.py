@@ -10,7 +10,6 @@ from decisions import *
 # AWAKEN - randomly choose wake up action --------------------------------------------------------------
 
 async def awaken(ws):             # rouse from sleep. Uninterruptible until complete
-    #################################################### make this two types; soft blink and yoink from top
 
     Glob.current_behaviour = 'awakening...' 
 
@@ -61,25 +60,18 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, three)
 
-    async def greet(ws):                  # ready to test #    NOPE
-        await preq.reset(ws)
-        await preq.flow(ws, 0.5, [[500,600,0], [200,200,200]])                    
-        await preq.simul_inflate(ws, [1,0.5,0.2])
-        await preq.flow(ws, 1, [[255, 50, 255], [255,50, 255]])
-        await asyncio.sleep(0.5)
-
-    async def bloom(ws):                  # ready to test #   yup
+    async def bloom(ws):                  # validate colours
         print('bloom')
         await preq.simul_inflate(ws, [1,1,1])
         if wake_col == 1:   
             await preq.flow(ws, 0.7, [[100,100,600],[0,0,0]])
-            await preq.flow(ws, 0.3, [[100,100,600],[0,0,0]])
+            await preq.flow(ws, 0.3, [[50,50,255],[50,255,50]])
         elif wake_col == 2:   
             await preq.flow(ws, 0.7, [[100,600,100],[0,0,0]])
-            await preq.flow(ws, 0.3, [[50, 255, 50],[50,255,50]])           # example. fix others
+            await preq.flow(ws, 0.3, [[50, 255, 50],[50,255,50]])           
         elif wake_col == 3:   
             await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
-            await preq.flow(ws, 0.3, [[600,600,100],[255,255,0]])
+            await preq.flow(ws, 0.3, [[255,255,50],[255,255,50]])
 
 
 
