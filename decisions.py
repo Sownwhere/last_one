@@ -172,9 +172,8 @@ def signal_hug(distance):
 
 
 def signal_tickle(distance_lhand,distance_rhand):
-    
 
-    if distance_lhand <= 0.36 or distance_rhand <= 0.36:
+    if distance_lhand <= 0.4 or distance_rhand <= 0.4:
 
         Glob.signtickle = True
         

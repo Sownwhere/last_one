@@ -111,7 +111,6 @@ class Glob:
     # waiting
 
     wait_colour = [[0,0,0],[0,0,0]]
-    wait_pos = [0,0,0]
 
     # neutral
     neutral_1 = [0,0,0]

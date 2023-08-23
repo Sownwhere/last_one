@@ -12,7 +12,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
 
     Glob.current_behaviour = 'awakening...' 
 
-    wake_type = random.choices([1,2,3], [0.4,0.4,0.2])  
+    wake_type = random.choice([1,2,3])  
     wake_col = random.choice([1,2,3])       
 
     async def rouse(ws):                  # good #
@@ -97,12 +97,6 @@ async def waiting(ws):      # test contingent on bow()
 
         Glob.wait_colour = [[R0, 0, B0],[R1, 0, B1]]
 
-        p1 = random.uniform(0.7,1)
-        p2 = random.uniform(0.5,1)
-        p3 = random.uniform(0.7,1)
-
-        Glob.wait_pos= [p1, p2, p3]
-
         await preq.flow(ws, 1, [[255,0,255],[255,0,255]])
 
         print('initialise wait')
@@ -115,10 +109,9 @@ async def waiting(ws):      # test contingent on bow()
 
     if Glob.t < Glob.patience:
 
-        await preq.shift(0, Glob.patience, Glob.wait_pos)
         await preq.bloop(0, Glob.patience, Glob.wait_colour[0], Glob.wait_colour[1])
 
-        await preq.simul_inflate(ws, Glob.p)
+        await preq.simul_inflate(ws, [1,1,1])
         await preq.alight_ends(ws, Glob.l0, Glob.l1)
         await asyncio.sleep(0.1)
 
@@ -325,7 +318,7 @@ async def AWAKE(ws):
 
             await wave(ws)
             
-        elif math_bowing(ws) or Glob.actions in bow_actions:
+        elif math_bowing() or Glob.actions in bow_actions:
 
             await bow(ws, Glob.sextant)
             
