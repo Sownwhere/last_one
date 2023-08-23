@@ -297,33 +297,26 @@ async def jumping(ws):
 # DIRECTED RESPONSES - responses based on relative position --------------------------------------------
 
 async def bow(ws, sextant):
-    
-    signBowing = Glob.signBowing
-    
-    await reset(ws)         ################# testing
-    await asyncio.sleep(3)  ################# testing
+        
+    await alight_ends(ws,[255,0,255],[255,0,255])
 
-    # if signBowing == True:
-    while True:
-        await alight_ends(ws,[255,0,255],[255,0,255])
-        #await alight_ends(ws,[0,255,0],[0,255,0])
-        #print('choosing 1 to 6')
+    if sextant == 0:
+        print('0')
+        pass
 
-        if sextant == 0:
-            print('0')
-            pass
-    
-        elif sextant == 1 or sextant == 2:
-            print(sextant)
-            await preq.simul_inflate(ws, [1,1,0.1])
+    elif sextant == 1 or sextant == 2:
+        print(sextant)
+        await preq.simul_inflate(ws, [1,1,0.1])
 
-        elif sextant == 3 or sextant == 4:
-            print(sextant)
-            await preq.simul_inflate(ws, [0.1,1,1])
+    elif sextant == 3 or sextant == 4:
+        print(sextant)
+        await preq.simul_inflate(ws, [0.1,1,1])
 
-        elif sextant == 5 or sextant == 6:
-            print(sextant)
-            await preq.simul_inflate(ws, [1,0.1,1])
+    elif sextant == 5 or sextant == 6:
+        print(sextant)
+        await preq.simul_inflate(ws, [1,0.1,1])
+
+    await asyncio.sleep(1)
 
 ### ### STATE FUNCTION - OVERARCHING STRUCTURE ### ### =================================================
 
@@ -394,8 +387,11 @@ async def recvpump(ws):
         await ws.recv()
 
 async def yaught(ws):
-    
-    await bow(ws,1)
+    while True:
+        await preq.full_reset(ws)
+        await asyncio.sleep(1)
+        print('ddd')
+    # await bow(ws,1)
 
 async def test():    # testing continuously
 
