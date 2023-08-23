@@ -136,7 +136,7 @@ def signal_Waving():
     if (Glob.l_Elbow[0]>0.4 or 
         Glob.l_Elbow[2]>0.4 or 
         Glob.r_Wrist[0]>0.4 or 
-        Glob.r_Wrist[2]>0.4) and avvel<0.03 and math_bowing() != True or Glob.actions == 'move hand' :
+        Glob.r_Wrist[2]>0.4) and avvel<0.025 and math_bowing() != True or Glob.actions == 'move hand' :
         Glob.signWaving =True
     else:
         Glob.signWaving= False

@@ -12,34 +12,29 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
 
     Glob.current_behaviour = 'awakening...' 
 
-    # wake_type = random.choices([1,2,3], [0.4,0.4,0.2])  
-    # wake_col = random.choice([1,2,3])       
+    wake_type = random.choices([1,2,3], [0.4,0.4,0.2])  
+    wake_col = random.choice([1,2,3])       
 
-    wake_type = 4     ######################### testing
-    wake_col = 2      ######################### testing
-    # print(wake_type)                      
-    # print(wake_colour)   
-
-    async def rouse(ws):                  # ready to test #
+    async def rouse(ws):                  # good #
 
         one = [[0,0,0],[0,0,0]]
         two = [[0,0,0],[0,0,0]]
         three = [[0,0,0],[0,0,0]]
 
         if wake_col == 1:       # blu           
-            one = [[0,0,255],[0,0,50]]   
-            two = [[0,0,400],[0,0,100]]  
-            three = [[0,0,600],[0,0,255]]
+            one = [[0,0,100],[0,0,50]]   
+            two = [[0,0,255],[0,0,100]]  
+            three = [[0,0,255],[0,0,255]]
 
         elif wake_col == 2:     # green         
-            one = [[0,255,0],[0,50,0]]   
-            two = [[0,400,0],[0,100,0]]  
-            three = [[0,0,600],[0,0,255]]
+            one = [[0,100,0],[0,50,0]]   
+            two = [[0,200,0],[0,100,0]]  
+            three = [[0,255,0],[0,255,0]]
 
         elif wake_col == 3:     # yellow        
-            one = [[100,255,0],[25,50,100]]   
-            two = [[255,400,0],[50,100,0]]  
-            three = [[450,600,0],[150,255,0]] 
+            one = [[100,100,0],[25,50,100]]   
+            two = [[200,200,0],[50,100,0]]  
+            three = [[255,255,0],[150,255,0]] 
 
         await preq.simul_inflate(ws, [0.3,0.3,0.3])
         await preq.flow(ws, 0.5, one)
@@ -51,7 +46,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, three)
 
-    async def bloom(ws):                  # validate colours
+    async def bloom(ws):                  # cool
         print('bloom')
         await preq.simul_inflate(ws, [1,1,1])
         if wake_col == 1:   
@@ -64,7 +59,7 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
             await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
             await preq.flow(ws, 0.3, [[255,255,50],[255,255,50]])
 
-    async def flair(ws):                  # runthru with stabilise #
+    async def flair(ws):                  # cool
         print('flair')
         await alight(ws, 0,0,0)
         await preq.simul_inflate(ws, [1,1,1])
@@ -93,7 +88,7 @@ async def waiting(ws):      # test contingent on bow()
         Glob.start_time = time.time()
         Glob.t = 0
 
-        Glob.patience = random.uniform(3,5)     # how long until seeking a reaction
+        Glob.patience = 5    # how long until seeking a reaction
 
         R0 = random.uniform(100,255)
         B0 = random.uniform(100,255)
@@ -125,7 +120,7 @@ async def waiting(ws):      # test contingent on bow()
 
         await preq.simul_inflate(ws, Glob.p)
         await preq.alight_ends(ws, Glob.l0, Glob.l1)
-        await asyncio.sleep(0.05)
+        await asyncio.sleep(0.1)
 
     elif Glob.t >= Glob.patience:
 
@@ -241,15 +236,13 @@ async def wave(ws):     # good
     await preq.simul_inflate(ws, [1,0,1])          
     await preq.flow(ws, 1, wave_col)
 
-async def jumping(ws):  # test colours and cutoffs #
+async def jumping(ws):  # yee #
 
-    print('jomp') 
-    jomp_col = 1
-    # jomp_col = random.choice([1,2])     #######################################
+    jomp_col = random.choice([1,2])     
 
     await simul_inflate(ws,[1,1,1])
 
-    sta = 500
+    sta = 400
     fin = 800
 
     if jomp_col == 1:       # BLUE
@@ -283,7 +276,7 @@ async def bow(ws, sextant):         # check the 0 problem with valve #
 
     elif sextant == 3 or sextant == 4:
         print(sextant)
-        await preq.simul_inflate(ws, [0.1,1,1])
+        await preq.simul_inflate(ws, [0.3,1,1])
 
     elif sextant == 5 or sextant == 6:
         print(sextant)
@@ -328,7 +321,7 @@ async def AWAKE(ws):
             
         elif signal_hug(Glob.distance) and Glob.distance<2:
 
-            await preq.alight(ws, 255,100,100)
+            await hug()
         
         elif signal_hug(Glob.distance)!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)==True:
 
@@ -360,11 +353,9 @@ async def recvpump(ws):
         await ws.recv()
 
 async def yaught(ws):
+
     while True:
-        await preq.full_reset(ws)
-        await asyncio.sleep(1)
-        print('ddd')
-    # await bow(ws,1)
+        await waiting(ws)
 
 async def test():    # testing continuously
 
