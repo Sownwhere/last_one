@@ -51,18 +51,18 @@ async def awaken(ws):             # rouse from sleep. Uninterruptible until comp
         await preq.simul_inflate(ws, [1,1,1])
         await preq.flow(ws, 0.5, three)
 
-    async def bloom(ws):                  # good - test all cols #
+    async def bloom(ws):                  # validate colours
         print('bloom')
         await preq.simul_inflate(ws, [1,1,1])
         if wake_col == 1:   
             await preq.flow(ws, 0.7, [[100,100,600],[0,0,0]])
-            await preq.flow(ws, 0.3, [[100,100,600],[0,0,0]])
+            await preq.flow(ws, 0.3, [[50,50,255],[50,255,50]])
         elif wake_col == 2:   
             await preq.flow(ws, 0.7, [[100,600,100],[0,0,0]])
             await preq.flow(ws, 0.3, [[50, 255, 50],[50,255,50]])           
         elif wake_col == 3:   
             await preq.flow(ws, 0.7, [[600,600,100],[0,0,0]])
-            await preq.flow(ws, 0.3, [[600,600,100],[255,255,0]])
+            await preq.flow(ws, 0.3, [[255,255,50],[255,255,50]])
 
     async def flair(ws):                  # runthru with stabilise #
         print('flair')
