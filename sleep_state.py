@@ -219,7 +219,7 @@ async def SLEEPING(ws):              ### ### STATE FUNCTION - OVERARCHING STRUCT
 
                 elif Glob.t < Glob.duration:
                     await preq.bloop(Glob.duration/2, Glob.duration/2, [0,0,0], [0,0,0])
-                    await preq.shift(Glob.duration/2, Glob.duration/2, [1,1,0])
+                    await preq.shift(Glob.duration/2, Glob.duration*0.45, [1,1,0])
                     await asyncio.sleep(0.05)
 
 
