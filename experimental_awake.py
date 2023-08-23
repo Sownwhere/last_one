@@ -321,7 +321,7 @@ async def AWAKE(ws):
             
         elif signal_hug(Glob.distance) and Glob.distance<2:
 
-            await hug()
+            await hug() 
         
         elif signal_hug(Glob.distance)!=True and signal_tickle(Glob.distance_lhand,Glob.distance_rhand)==True:
 
